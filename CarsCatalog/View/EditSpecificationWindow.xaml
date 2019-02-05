@@ -1,0 +1,248 @@
+﻿<Window x:Class="CarsCatalog.View.EditSpecificationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CarsCatalog.View"
+        xmlns:vm="clr-namespace:CarsCatalog.ViewModel"
+        xmlns:infra="clr-namespace:CarsCatalog.Infrastructure"
+        xmlns:lang="clr-namespace:Languages;assembly=Languages"
+        xmlns:theme="clr-namespace:Themes;assembly=Themes"
+        x:Name="wnd"
+        lang:LanguageManager.Language="{Binding StyleLanguage.SelectedLanguage}"
+        theme:ThemeManager.Theme="{Binding StyleLanguage.SelectedTheme}"
+        mc:Ignorable="d"
+        Title="{DynamicResource ResourceKey=ec_Title}"
+        Height="500" 
+        Width="700"
+        MaxWidth="800" 
+        MinWidth="600"
+        >
+    <Window.DataContext>
+        <vm:EditSpecificationViewModel></vm:EditSpecificationViewModel>
+    </Window.DataContext>
+    <Window.Resources>
+        <infra:ImageConverter x:Key="ImageConverter"></infra:ImageConverter>
+        <DataTemplate x:Key="ListDataTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"></ColumnDefinition>
+                    <ColumnDefinition Width="120"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock                     
+                    Margin="5"
+                    FontSize="15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"                 
+                    Text="{Binding Id}"></TextBlock>
+                <Image
+                    Grid.Column="1"
+                    Margin="10"
+                    VerticalAlignment="Center"
+                    Height="50"
+                    Source="{Binding Image, Converter={StaticResource ImageConverter}}"
+                    Stretch="Uniform"
+                    ></Image>
+                <TextBlock 
+                    Margin="5"                    
+                    FontSize="15"                    
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="{Binding Name}"></TextBlock>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="ListOfSpecifications">
+            <TextBlock Text="{DynamicResource ResourceKey={Binding Name}}"></TextBlock>
+        </DataTemplate>
+    </Window.Resources>
+    <DockPanel>
+        <Grid
+            DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Menu
+                FontSize="15"
+                VerticalAlignment="Stretch">
+                <MenuItem 
+                    Header="{DynamicResource es_Update}"
+                    Command="{Binding UpdateCommand}" 
+                    CommandParameter="{Binding ElementName=wnd}"></MenuItem>
+                <MenuItem Header="{DynamicResource m_Specifications}">
+                    <MenuItem 
+                        Header="{DynamicResource BodyType}" 
+                        Command="{Binding SelectCollectionCommand}" 
+                        CommandParameter="BodyType"></MenuItem>
+                    <MenuItem
+                        Header="{DynamicResource Brand}" 
+                        Command="{Binding SelectCollectionCommand}" 
+                        CommandParameter="Brand"></MenuItem>
+                    <MenuItem 
+                        Header="{DynamicResource Gearbox}" 
+                        Command="{Binding SelectCollectionCommand}" 
+                        CommandParameter="Gearbox"></MenuItem>
+                    <MenuItem Header="{DynamicResource WheelDrive}"
+                              Command="{Binding SelectCollectionCommand}"
+                              CommandParameter="WheelDrive"></MenuItem>
+                </MenuItem>
+                <MenuItem 
+                    Header="{DynamicResource m_Exit}"
+                    Command="{Binding ExitCommand}" 
+                    CommandParameter="{Binding ElementName=wnd}"></MenuItem>
+            </Menu>
+            <Grid
+                Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>               
+                <ComboBox                   
+                    MinWidth="120"
+                    FontSize="15"
+                    ItemsSource="{Binding StyleLanguage.ThemeList}"
+                    SelectedItem="{Binding StyleLanguage.SelectedListTheme}">                    
+                </ComboBox>
+                <ComboBox
+                    Grid.Column="1"
+                    MinWidth="120"
+                    FontSize="15"                    
+                    ItemsSource="{Binding StyleLanguage.LangList}"
+                    SelectedItem="{Binding StyleLanguage.SelectedListLanguage}">
+                </ComboBox>
+            </Grid>           
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"></ColumnDefinition>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>               
+                <TextBlock 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Text="{DynamicResource es_Id}"></TextBlock>
+                <TextBlock  
+                    FontSize="12"
+                    Grid.Column="1"
+                    Margin="5"  
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Text="{DynamicResource es_Image}"></TextBlock>
+                <TextBlock
+                    FontSize="12"                    
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Text="{DynamicResource es_Name}" Grid.ColumnSpan="2"></TextBlock>
+                <ListBox
+                    FontSize="12"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    ItemsSource="{Binding Specifications}"
+                    SelectedItem="{Binding SelectedItem}"
+                    ItemTemplate="{StaticResource ListDataTemplate}">
+                </ListBox>
+                <Button 
+                    Grid.Row="2"
+                    Grid.ColumnSpan="3"                   
+                    Command="{Binding AddCommand}"
+                    Content="{DynamicResource ResourceKey=m_Add}"></Button>
+                <Button 
+                    Grid.Row="3"
+                    Grid.ColumnSpan="4"                   
+                    Command="{Binding UpdateCommand}"
+                    Content="{DynamicResource ResourceKey=es_Update}"></Button>
+                <Button 
+                    Grid.Row="5"
+                    Grid.ColumnSpan="3"
+                    Command="{Binding RemoveCommand}"  
+                    Content="{DynamicResource ResourceKey=m_Remove}"></Button>
+            </Grid>
+
+            <Grid 
+                Grid.Column="1"
+                Margin="5 10 5 10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border 
+                    BorderBrush="Black"
+                    CornerRadius="50"
+                    Margin="10"
+                    Padding="10"
+                    BorderThickness="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="3*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock 
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        FontSize="15"
+                        Text="{DynamicResource es_Image}"></TextBlock>
+                        <Grid
+                        VerticalAlignment="Top"
+                        Grid.Row="1">
+                            <Button
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Command="{Binding EditImage}"
+                                Width="50"
+                                Height="20">...</Button>
+                            <Image
+                                Source="{Binding SelectedItem.Image, 
+                                Converter={StaticResource ImageConverter},
+                                Mode=TwoWay,
+                                UpdateSourceTrigger=PropertyChanged}"
+                                Stretch="Uniform"
+                                StretchDirection="Both"></Image>
+                        </Grid>
+                    </Grid>
+                </Border>
+                <Border
+                    Grid.Row="1"
+                    BorderBrush="Black"
+                    CornerRadius="50"
+                    Margin="10"
+                    Padding="10"
+                    BorderThickness="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="3*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock                          
+                            VerticalAlignment="Top" 
+                            HorizontalAlignment="Center"
+                            Grid.Row="2"
+                            Text="{DynamicResource es_Name}"></TextBlock>
+                        <TextBox 
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Stretch"
+                            Grid.Row="3"
+                            Text="{Binding SelectedItem.Name,
+                            Mode=TwoWay,
+                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    </Grid>
+                </Border>                             
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>

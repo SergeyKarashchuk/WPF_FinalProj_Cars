@@ -1,0 +1,217 @@
+﻿using dal = CarsCatalog.DataAccessLayer.DAL_Models;
+using CarsCatalog.Model;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
+namespace CarsCatalog.ViewModel.Filter
+{    
+    public class Filte : INotifyPropertyChanged
+    {
+        I
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void Notify([CallerMemberName]string property = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+
+        private IEnumerable<Car> carsList;
+        private FilterCollections filterCollections;
+
+        private ObservableCollection<Car> observableCollection;       
+        public ObservableCollection<Car> CarsObservableCollection
+        {
+            get => observableCollection;
+            set
+            {
+                observableCollection = value;
+                Notify();
+            }
+        }       
+
+        public Filte(IEnumerable<Car> carsList, FilterCollections filterCollections)
+        {
+            this.carsList = carsList;
+            this.filterCollections = filterCollections;
+        }
+
+        #region RemapFiltersState
+        private void RemapFilterInAllCollections()
+        {
+            RemapChecksInBrands();
+            RemapChecksInBodyTypes();
+            RemapChecksInGearboxes();
+            RemapChecksInWheelDrives();
+        }
+
+        private void RemapChecksInBrands()
+        {
+            foreach (var item in filterCollections.BrandsChecks)
+            {
+                if (carsList.FirstOrDefault(x => x.Brand.Name == item.Name) == null)
+                {
+                    item.IsEnabled = false;
+                    item.IsChecked = false;
+                }
+            }
+        }
+
+        private void RemapChecksInBodyTypes()
+        {
+            foreach (var item in filterCollections.BodyTypesChecks)
+            {
+                if (carsList.FirstOrDefault(x => x.BodyType.Name == item.Name) == null)
+                {
+                    item.IsEnabled = false;
+                    item.IsChecked = false;
+                }
+            }
+        }
+
+        private void RemapChecksInGearboxes()
+        {
+            foreach (var item in filterCollections.GearboxChecks)
+            {
+                if (carsList.FirstOrDefault(x => x.Gearbox.Name == item.Name) == null)
+                {
+                    item.IsEnabled = false;
+                    item.IsChecked = false;
+                }
+            }
+        }
+
+        private void RemapChecksInWheelDrives()
+        {
+            foreach (var item in filterCollections.WheelDriveChecks)
+            {
+                if (carsList.FirstOrDefault(x => x.WheelDrive.Name == item.Name) == null)
+                {
+                    item.IsEnabled = false;
+                    item.IsChecked = false;
+                }
+            }
+        }
+        #endregion
+
+        #region FiltersMethods
+        public void ClearFilters()
+        {
+            RemapFilterInAllCollections();
+            CarsObservableCollection = new ObservableCollection<Car>(carsList);
+
+        }
+
+        public void FilterCollections_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (!(e.PropertyName == "IsEnabled" || e.PropertyName == "Name"))
+            {
+                CheckBoxItem check_item = sender as CheckBoxItem;
+                RemapElementsInCollection(check_item.CheckBoxItemType);
+            }
+        }
+
+        public void RemapElementsInCollection(CheckBoxItemType typeOfFiltrate)
+        {
+            RemapFilterInAllCollections();           
+
+
+            List<Car> NewCollection = new List<Car>(carsList);
+
+            switch (typeOfFiltrate)
+            {
+                case CheckBoxItemType.Brand:
+                    FiltrateByBrand(NewCollection);
+                    FiltrateByBodyType(NewCollection);
+                    FiltrateByGearBox(NewCollection);
+                    FiltrateByWheelDrive(NewCollection);
+                    break;
+                case CheckBoxItemType.BodyType:
+                    FiltrateByBodyType(NewCollection);
+                    FiltrateByBrand(NewCollection);
+                    FiltrateByGearBox(NewCollection);
+                    FiltrateByWheelDrive(NewCollection);
+                    break;
+                case CheckBoxItemType.Gearbox:
+                    FiltrateByGearBox(NewCollection);
+                    FiltrateByBrand(NewCollection);
+                    FiltrateByBodyType(NewCollection);
+                    FiltrateByWheelDrive(NewCollection);
+
+                    break;
+                case CheckBoxItemType.WheelDrive:
+                    FiltrateByWheelDrive(NewCollection);
+                    FiltrateByBrand(NewCollection);
+                    FiltrateByBodyType(NewCollection);
+                    FiltrateByGearBox(NewCollection);
+                    break;
+                default:
+                    break;
+            }
+            CarsObservableCollection = new ObservableCollection<Car>(NewCollection);
+        }
+
+        private void FiltrateByBrand(List<Car> NewCollection)
+        {            
+            IEnumerable<CheckBoxItem> cheks = filterCollections.BrandsChecks.Where(x => x.IsEnabled == true && x.IsChecked == true);
+
+            if (cheks.ToList().Count > 0)
+            {
+                IEnumerable<CheckBoxItem> uncheks = filterCollections.BrandsChecks.Where(x => x.IsEnabled == true && x.IsChecked == false);
+                foreach (var item in uncheks)
+                {
+                    NewCollection.RemoveAll(x => x.Brand.Name == item.Name);
+                }
+            }          
+        }
+
+        private void FiltrateByBodyType(List<Car> NewCollection)
+        {
+            IEnumerable<CheckBoxItem> cheks = filterCollections.BodyTypesChecks.Where(x => x.IsEnabled == true && x.IsChecked == true);
+            if (cheks.ToList().Count > 0)
+            {
+                IEnumerable<CheckBoxItem> uncheks = filterCollections.BodyTypesChecks.Where(x => x.IsEnabled == true && x.IsChecked == false);
+                foreach (var item in uncheks)
+                {
+                    NewCollection.RemoveAll(x => x.BodyType.Name == item.Name);
+                }
+            }
+        }
+
+        private void FiltrateByGearBox(List<Car> NewCollection)
+        {
+            IEnumerable<CheckBoxItem> cheks = filterCollections.GearboxChecks.Where(x => x.IsEnabled == true && x.IsChecked == true);
+            if (cheks.ToList().Count > 0)
+            {
+                IEnumerable<CheckBoxItem> uncheks = filterCollections.GearboxChecks.Where(x => x.IsEnabled == true && x.IsChecked == false);
+                foreach (var item in uncheks)
+                {
+                    NewCollection.RemoveAll(x => x.Gearbox.Name == item.Name);
+                }
+            }
+        }
+
+        private void FiltrateByWheelDrive(List<Car> NewCollection)
+        {
+            IEnumerable<CheckBoxItem> cheks = filterCollections.WheelDriveChecks.Where(x => x.IsEnabled == true && x.IsChecked == true);
+            if (cheks.ToList().Count > 0)
+            {
+                IEnumerable<CheckBoxItem> uncheks = filterCollections.WheelDriveChecks.Where(x => x.IsEnabled == true && x.IsChecked == false);
+                foreach (var item in uncheks)
+                {
+                    NewCollection.RemoveAll(x => x.WheelDrive.Name == item.Name);
+                }
+            }
+        }
+        #endregion
+
+        #region SortMethods
+
+
+        #endregion
+    }
+}

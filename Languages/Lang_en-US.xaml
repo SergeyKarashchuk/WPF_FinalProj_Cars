@@ -1,0 +1,49 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    
+    <!-- Main Window-->
+    <s:String x:Key="m_Title">Car catalog</s:String>
+    <s:String x:Key="m_Car">Car</s:String>
+    <s:String x:Key="m_Add">Add</s:String>
+    <s:String x:Key="m_Edit">Edit</s:String>
+    <s:String x:Key="m_Remove">Remove</s:String>
+
+    <s:String x:Key="m_Specifications">Specifications</s:String>
+    <s:String x:Key="m_Exit">Exit</s:String>
+
+    <s:String x:Key="m_Image_Size">Image size</s:String>
+
+    <s:String x:Key="m_Filter">Filter</s:String>
+    <s:String x:Key="m_Sort">Sort</s:String>
+
+
+    <s:String x:Key="Brand">Brand</s:String>
+    <s:String x:Key="BodyType">Body type</s:String>
+    <s:String x:Key="Gearbox">Gearbox</s:String>
+    <s:String x:Key="WheelDrive">Wheel drive</s:String>
+
+    <s:String x:Key="m_PriceIncreases">Price Increases</s:String>
+    <s:String x:Key="m_PriceDecreases">Price Decreases</s:String>
+    
+    <!-- Edit Specification Window-->
+    <s:String x:Key="ec_Title">Edit specifications</s:String>
+    <s:String x:Key="es_Update">Update</s:String>
+    <s:String x:Key="es_Id">Id</s:String>
+    <s:String x:Key="es_Image">Image</s:String>
+    <s:String x:Key="es_Name">Name</s:String>
+    
+    <!-- Edit Car Window-->
+    <s:String x:Key="car_Title">Edit car</s:String>
+    <s:String x:Key="car_Ok">Confirm</s:String>
+    <s:String x:Key="car_Cencel">Cencel</s:String>
+
+</ResourceDictionary>
+
+
+
+

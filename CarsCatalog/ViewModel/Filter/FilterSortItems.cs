@@ -1,18 +1,14 @@
-﻿using dal = CarsCatalog.DataAccessLayer.DAL_Models;
-using CarsCatalog.Model;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using CarsCatalog.Infrastructure;
+using CarCatalogDAL;
 
 namespace CarsCatalog.ViewModel.Filter
-{    
+{
     public class FilterSortItems : INotifyPropertyChanged
     {
         public ICommand Sort { get; }
@@ -55,9 +51,9 @@ namespace CarsCatalog.ViewModel.Filter
 
         private void RemapChecksInBrands()
         {
-            foreach (var item in FilterCollections.BrandsChecks)
+            foreach (var item in FilterCollections.ManufacturerChecks)
             {
-                if (carsList.FirstOrDefault(x => x.Brand.Name == item.Name) == null)
+                if (carsList.FirstOrDefault(x => x.Manufacturer.Name == item.Name) == null)
                 {
                     item.IsEnabled = false;
                     item.IsChecked = false;
@@ -79,9 +75,9 @@ namespace CarsCatalog.ViewModel.Filter
 
         private void RemapChecksInGearboxes()
         {
-            foreach (var item in FilterCollections.GearboxChecks)
+            foreach (var item in FilterCollections.GearBoxTypesChecks)
             {
-                if (carsList.FirstOrDefault(x => x.Gearbox.Name == item.Name) == null)
+                if (carsList.FirstOrDefault(x => x.GearBoxType.Name == item.Name) == null)
                 {
                     item.IsEnabled = false;
                     item.IsChecked = false;
@@ -93,7 +89,7 @@ namespace CarsCatalog.ViewModel.Filter
         {
             foreach (var item in FilterCollections.WheelDriveChecks)
             {
-                if (carsList.FirstOrDefault(x => x.WheelDrive.Name == item.Name) == null)
+                if (carsList.FirstOrDefault(x => x.WheelDriveType.Name == item.Name) == null)
                 {
                     item.IsEnabled = false;
                     item.IsChecked = false;
@@ -163,14 +159,14 @@ namespace CarsCatalog.ViewModel.Filter
 
         private void FiltrateByBrand(List<Car> NewCollection)
         {            
-            IEnumerable<CheckBoxItem> cheks = FilterCollections.BrandsChecks.Where(x => x.IsEnabled == true && x.IsChecked == true);
+            IEnumerable<CheckBoxItem> cheks = FilterCollections.ManufacturerChecks.Where(x => x.IsEnabled == true && x.IsChecked == true);
 
             if (cheks.ToList().Count > 0)
             {
-                IEnumerable<CheckBoxItem> uncheks = FilterCollections.BrandsChecks.Where(x => x.IsEnabled == true && x.IsChecked == false);
+                IEnumerable<CheckBoxItem> uncheks = FilterCollections.ManufacturerChecks.Where(x => x.IsEnabled == true && x.IsChecked == false);
                 foreach (var item in uncheks)
                 {
-                    NewCollection.RemoveAll(x => x.Brand.Name == item.Name);
+                    NewCollection.RemoveAll(x => x.Manufacturer.Name == item.Name);
                 }
             }          
         }
@@ -190,13 +186,13 @@ namespace CarsCatalog.ViewModel.Filter
 
         private void FiltrateByGearBox(List<Car> NewCollection)
         {
-            IEnumerable<CheckBoxItem> cheks = FilterCollections.GearboxChecks.Where(x => x.IsEnabled == true && x.IsChecked == true);
+            IEnumerable<CheckBoxItem> cheks = FilterCollections.GearBoxTypesChecks.Where(x => x.IsEnabled == true && x.IsChecked == true);
             if (cheks.ToList().Count > 0)
             {
-                IEnumerable<CheckBoxItem> uncheks = FilterCollections.GearboxChecks.Where(x => x.IsEnabled == true && x.IsChecked == false);
+                IEnumerable<CheckBoxItem> uncheks = FilterCollections.GearBoxTypesChecks.Where(x => x.IsEnabled == true && x.IsChecked == false);
                 foreach (var item in uncheks)
                 {
-                    NewCollection.RemoveAll(x => x.Gearbox.Name == item.Name);
+                    NewCollection.RemoveAll(x => x.GearBoxType.Name == item.Name);
                 }
             }
         }
@@ -209,7 +205,7 @@ namespace CarsCatalog.ViewModel.Filter
                 IEnumerable<CheckBoxItem> uncheks = FilterCollections.WheelDriveChecks.Where(x => x.IsEnabled == true && x.IsChecked == false);
                 foreach (var item in uncheks)
                 {
-                    NewCollection.RemoveAll(x => x.WheelDrive.Name == item.Name);
+                    NewCollection.RemoveAll(x => x.WheelDriveType.Name == item.Name);
                 }
             }
         }      
@@ -220,16 +216,16 @@ namespace CarsCatalog.ViewModel.Filter
         {
             switch (o.ToString())
             {
-                case "Brand":
-                    CarsObservableCollection = new ObservableCollection<Car>(CarsObservableCollection.OrderBy(x => x.Brand.Name));
+                case "Manufacturer":
+                    CarsObservableCollection = new ObservableCollection<Car>(CarsObservableCollection.OrderBy(x => x.Manufacturer.Name));
                     break;
 
-                case "Gearbox":
-                    CarsObservableCollection = new ObservableCollection<Car>(CarsObservableCollection.OrderBy(x => x.Gearbox.Name));
+                case "GearBoxType":
+                    CarsObservableCollection = new ObservableCollection<Car>(CarsObservableCollection.OrderBy(x => x.GearBoxType.Name));
                     break;
 
-                case "WheelDrive":
-                    CarsObservableCollection = new ObservableCollection<Car>(CarsObservableCollection.OrderBy(x => x.WheelDrive.Name));
+                case "WheelDriveType":
+                    CarsObservableCollection = new ObservableCollection<Car>(CarsObservableCollection.OrderBy(x => x.WheelDriveType.Name));
                     break;
 
                 case "PriceIncreases":

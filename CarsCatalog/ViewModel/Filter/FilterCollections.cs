@@ -1,4 +1,5 @@
-﻿using CarsCatalog.DataAccessLayer;
+﻿using CarCatalogDAL.Abstractions;
+using CarCatalogDAL.Implementations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,7 +24,7 @@ namespace CarsCatalog.ViewModel.Filter
         private UnitOfWork uof;
         private PropertyChangedEventHandler handler;
         private List<CheckBoxItem> brandList;
-        public List<CheckBoxItem> BrandsChecks
+        public List<CheckBoxItem> ManufacturerChecks
         {
             get => brandList;
             set
@@ -45,7 +46,7 @@ namespace CarsCatalog.ViewModel.Filter
         }
 
         private List<CheckBoxItem> gearboxList;
-        public List<CheckBoxItem> GearboxChecks
+        public List<CheckBoxItem> GearBoxTypesChecks
         {
             get => gearboxList;
             set
@@ -85,33 +86,17 @@ namespace CarsCatalog.ViewModel.Filter
 
         private void FillCheckBoxLists(PropertyChangedEventHandler handler)
         {
-            BrandsChecks = new List<CheckBoxItem>(
-                uof
-                    .Brands
-                        .GetAll()
-                            .Select
-                                (x => new CheckBoxItem(x.Name, CheckBoxItemType.Brand, handler)));
+            ManufacturerChecks = new List<CheckBoxItem>(uof.Manufacturers.GetAll()
+                .Select(x => new CheckBoxItem(x.Name, CheckBoxItemType.Brand, handler)));
 
-            BodyTypesChecks = new List<CheckBoxItem>(
-                uof
-                    .BodyTypes
-                        .GetAll()
-                            .Select
-                                (x => new CheckBoxItem(x.Name, CheckBoxItemType.BodyType ,handler)));
+            BodyTypesChecks = new List<CheckBoxItem>(uof.BodyTypes.GetAll()
+                .Select(x => new CheckBoxItem(x.Name, CheckBoxItemType.BodyType ,handler)));
 
-            GearboxChecks = new List<CheckBoxItem>(
-                uof
-                    .Gearboxes
-                        .GetAll()
-                            .Select
-                                (x => new CheckBoxItem(x.Name,CheckBoxItemType.Gearbox, handler)));
+            GearBoxTypesChecks = new List<CheckBoxItem>(uof.GearBoxTypes.GetAll()
+                .Select(x => new CheckBoxItem(x.Name,CheckBoxItemType.Gearbox, handler)));
 
-            WheelDriveChecks = new List<CheckBoxItem>(
-                uof
-                    .WheelDrives
-                        .GetAll()
-                            .Select
-                                (x => new CheckBoxItem(x.Name, CheckBoxItemType.WheelDrive, handler)));
+            WheelDriveChecks = new List<CheckBoxItem>(uof.WheelDriveTypes.GetAll()
+                .Select(x => new CheckBoxItem(x.Name, CheckBoxItemType.WheelDrive, handler)));
         }
 
        

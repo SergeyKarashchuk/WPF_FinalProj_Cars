@@ -1,0 +1,335 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CarCatalogModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BodyType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Image" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BodyTypeID" Type="int" />
+          <Property Name="ManufacturerID" Type="int" />
+          <Property Name="GearBoxTypeID" Type="int" />
+          <Property Name="WheelDriveTypeID" Type="int" />
+          <Property Name="Model" Type="nvarchar" MaxLength="100" />
+          <Property Name="Image" Type="nvarchar" MaxLength="100" />
+          <Property Name="Power" Type="int" />
+          <Property Name="Price" Type="numeric" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="GearBoxType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Image" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Manufacturer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Image" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="WheelDriveType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Image" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Car_BodyType">
+          <End Role="BodyType" Type="Self.BodyType" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BodyType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="BodyTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_GearBoxType">
+          <End Role="GearBoxType" Type="Self.GearBoxType" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GearBoxType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="GearBoxTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_Manufacturer">
+          <End Role="Manufacturer" Type="Self.Manufacturer" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="ManufacturerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_WheelDriveType">
+          <End Role="WheelDriveType" Type="Self.WheelDriveType" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WheelDriveType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="WheelDriveTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarCatalogModelStoreContainer">
+          <EntitySet Name="BodyType" EntityType="Self.BodyType" Schema="Cars" store:Type="Tables" />
+          <EntitySet Name="Car" EntityType="Self.Car" Schema="Cars" store:Type="Tables" />
+          <EntitySet Name="GearBoxType" EntityType="Self.GearBoxType" Schema="Cars" store:Type="Tables" />
+          <EntitySet Name="Manufacturer" EntityType="Self.Manufacturer" Schema="Cars" store:Type="Tables" />
+          <EntitySet Name="WheelDriveType" EntityType="Self.WheelDriveType" Schema="Cars" store:Type="Tables" />
+          <AssociationSet Name="FK_Car_BodyType" Association="Self.FK_Car_BodyType">
+            <End Role="BodyType" EntitySet="BodyType" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_GearBoxType" Association="Self.FK_Car_GearBoxType">
+            <End Role="GearBoxType" EntitySet="GearBoxType" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_Manufacturer" Association="Self.FK_Car_Manufacturer">
+            <End Role="Manufacturer" EntitySet="Manufacturer" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_WheelDriveType" Association="Self.FK_Car_WheelDriveType">
+            <End Role="WheelDriveType" EntitySet="WheelDriveType" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CarCatalogModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BodyTypeDB">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Car_BodyType" FromRole="BodyType" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="CarDB">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BodyTypeID" Type="Int32" />
+          <Property Name="ManufacturerID" Type="Int32" />
+          <Property Name="GearBoxTypeID" Type="Int32" />
+          <Property Name="WheelDriveTypeID" Type="Int32" />
+          <Property Name="Model" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Power" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="BodyType" Relationship="Self.FK_Car_BodyType" FromRole="Car" ToRole="BodyType" />
+          <NavigationProperty Name="GearBoxType" Relationship="Self.FK_Car_GearBoxType" FromRole="Car" ToRole="GearBoxType" />
+          <NavigationProperty Name="Manufacturer" Relationship="Self.FK_Car_Manufacturer" FromRole="Car" ToRole="Manufacturer" />
+          <NavigationProperty Name="WheelDriveType" Relationship="Self.FK_Car_WheelDriveType" FromRole="Car" ToRole="WheelDriveType" />
+        </EntityType>
+        <EntityType Name="GearBoxTypeDB">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Car_GearBoxType" FromRole="GearBoxType" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="ManufacturerDB">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Car_Manufacturer" FromRole="Manufacturer" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="WheelDriveTypeDB">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Car_WheelDriveType" FromRole="WheelDriveType" ToRole="Car" />
+        </EntityType>
+        <Association Name="FK_Car_BodyType">
+          <End Role="BodyType" Type="CarCatalogModel.BodyTypeDB" Multiplicity="0..1" />
+          <End Role="Car" Type="CarCatalogModel.CarDB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BodyType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="BodyTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_GearBoxType">
+          <End Role="GearBoxType" Type="CarCatalogModel.GearBoxTypeDB" Multiplicity="0..1" />
+          <End Role="Car" Type="CarCatalogModel.CarDB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GearBoxType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="GearBoxTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_Manufacturer">
+          <End Role="Manufacturer" Type="CarCatalogModel.ManufacturerDB" Multiplicity="0..1" />
+          <End Role="Car" Type="CarCatalogModel.CarDB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="ManufacturerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_WheelDriveType">
+          <End Role="WheelDriveType" Type="CarCatalogModel.WheelDriveTypeDB" Multiplicity="0..1" />
+          <End Role="Car" Type="CarCatalogModel.CarDB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WheelDriveType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="WheelDriveTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarCatalogEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BodyType" EntityType="CarCatalogModel.BodyTypeDB" />
+          <EntitySet Name="Car" EntityType="CarCatalogModel.CarDB" />
+          <EntitySet Name="GearBoxType" EntityType="CarCatalogModel.GearBoxTypeDB" />
+          <EntitySet Name="Manufacturer" EntityType="CarCatalogModel.ManufacturerDB" />
+          <EntitySet Name="WheelDriveType" EntityType="CarCatalogModel.WheelDriveTypeDB" />
+          <AssociationSet Name="FK_Car_BodyType" Association="Self.FK_Car_BodyType">
+            <End Role="BodyType" EntitySet="BodyType" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_GearBoxType" Association="Self.FK_Car_GearBoxType">
+            <End Role="GearBoxType" EntitySet="GearBoxType" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_Manufacturer" Association="Self.FK_Car_Manufacturer">
+            <End Role="Manufacturer" EntitySet="Manufacturer" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_WheelDriveType" Association="Self.FK_Car_WheelDriveType">
+            <End Role="WheelDriveType" EntitySet="WheelDriveType" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CarCatalogModelStoreContainer" CdmEntityContainer="CarCatalogEntities">
+          <EntitySetMapping Name="BodyType">
+            <EntityTypeMapping TypeName="CarCatalogModel.BodyTypeDB">
+              <MappingFragment StoreEntitySet="BodyType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Car">
+            <EntityTypeMapping TypeName="CarCatalogModel.CarDB">
+              <MappingFragment StoreEntitySet="Car">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="BodyTypeID" ColumnName="BodyTypeID" />
+                <ScalarProperty Name="ManufacturerID" ColumnName="ManufacturerID" />
+                <ScalarProperty Name="GearBoxTypeID" ColumnName="GearBoxTypeID" />
+                <ScalarProperty Name="WheelDriveTypeID" ColumnName="WheelDriveTypeID" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Power" ColumnName="Power" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GearBoxType">
+            <EntityTypeMapping TypeName="CarCatalogModel.GearBoxTypeDB">
+              <MappingFragment StoreEntitySet="GearBoxType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Manufacturer">
+            <EntityTypeMapping TypeName="CarCatalogModel.ManufacturerDB">
+              <MappingFragment StoreEntitySet="Manufacturer">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WheelDriveType">
+            <EntityTypeMapping TypeName="CarCatalogModel.WheelDriveTypeDB">
+              <MappingFragment StoreEntitySet="WheelDriveType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

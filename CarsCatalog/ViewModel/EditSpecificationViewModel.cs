@@ -1,5 +1,6 @@
-﻿using CarsCatalog.DataAccessLayer;
-using CarsCatalog.DataAccessLayer.DAL_Models;
+﻿using CarCatalogDAL;
+using CarCatalogDAL.Implementations;
+using CarCatalogDAL.Models;
 using CarsCatalog.Infrastructure;
 using CarsCatalog.Model.DataProviders;
 using CarsCatalog.ViewModel.StyleAndLanguage;
@@ -41,8 +42,8 @@ namespace CarsCatalog.ViewModel
         #region Properties
         private UnitOfWork uof;
 
-        private ObservableCollection<Specification> specifications;
-        public ObservableCollection<Specification> Specifications
+        private ObservableCollection<ISpecification> specifications;
+        public ObservableCollection<ISpecification> Specifications
         {
             get => specifications;
             set
@@ -52,8 +53,8 @@ namespace CarsCatalog.ViewModel
             }
         }
 
-        private Specification spec;
-        public Specification SelectedItem
+        private ISpecification spec;
+        public ISpecification SelectedItem
         {
             get => spec;
             set
@@ -95,28 +96,31 @@ namespace CarsCatalog.ViewModel
         private void SelectCollectionMethod(object o)
         {
             CurrentCollection = o as string;
-
+            var list = new List<ISpecification>();
+            Specifications = new ObservableCollection<ISpecification>();
             switch (CurrentCollection)
             {
                 case "BodyType":
-                    Specifications = new ObservableCollection<Specification>(uof.BodyTypes.GetAll());
+                    list.AddRange(uof.BodyTypes.GetAll());
                     break;
 
-                case "Brand":
-                    Specifications = new ObservableCollection<Specification>(uof.Brands.GetAll());
+                case "Manufacturer":
+                    list.AddRange(uof.Manufacturers.GetAll());
                     break;
 
-                case "Gearbox":
-                    Specifications = new ObservableCollection<Specification>(uof.Gearboxes.GetAll());
+                case "GearBoxType":
+                    list.AddRange(uof.GearBoxTypes.GetAll());
                     break;
 
-                case "WheelDrive":
-                    Specifications = new ObservableCollection<Specification>(uof.WheelDrives.GetAll());
+                case "WheelDriveType":
+                    list.AddRange(uof.WheelDriveTypes.GetAll());
                     break;
 
                 default:
                     break;
             }
+
+            Specifications = new ObservableCollection<ISpecification>(list);
         }
 
         private void AddImageMethod(object o)
@@ -155,20 +159,19 @@ namespace CarsCatalog.ViewModel
                     uof.BodyTypes.Add(SelectedItem as BodyType);
                     break;
 
-                case "Brand":
-                    SelectedItem = new Brand();
-                    uof.Brands.Add(SelectedItem as Brand);
-
+                case "Manufacturer":
+                    SelectedItem = new Manufacturer();
+                    uof.Manufacturers.Add(SelectedItem as Manufacturer);
                     break;
 
-                case "Gearbox":
-                    SelectedItem = new Gearbox();
-                    uof.Gearboxes.Add(SelectedItem as Gearbox);
+                case "GearBoxType":
+                    SelectedItem = new GearBoxType();
+                    uof.GearBoxTypes.Add(SelectedItem as GearBoxType);
                     break;
 
-                case "WheelDrive":
-                    SelectedItem = new WheelDrive();
-                    uof.WheelDrives.Add(SelectedItem as WheelDrive);
+                case "WheelDriveType":
+                    SelectedItem = new WheelDriveType();
+                    uof.WheelDriveTypes.Add(SelectedItem as WheelDriveType);
                     break;
 
                 default:
@@ -191,16 +194,16 @@ namespace CarsCatalog.ViewModel
                     uof.BodyTypes.Remove(SelectedItem as BodyType);
                     break;
 
-                case "Brand":
-                    uof.Brands.Remove(SelectedItem as Brand);
+                case "Manufacturer":
+                    uof.Manufacturers.Remove(SelectedItem as Manufacturer);
                     break;
 
-                case "Gearbox":
-                    uof.Gearboxes.Remove(SelectedItem as Gearbox);
+                case "GearBoxType":
+                    uof.GearBoxTypes.Remove(SelectedItem as GearBoxType);
                     break;
 
-                case "WheelDrive":
-                    uof.WheelDrives.Remove(SelectedItem as WheelDrive);
+                case "WheelDriveType":
+                    uof.WheelDriveTypes.Remove(SelectedItem as WheelDriveType);
                     break;
 
                 default:

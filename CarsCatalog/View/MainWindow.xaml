@@ -16,10 +16,10 @@
         Width="1000"
         x:Name="wnd">
     <Window.DataContext>
-        <vm:MainViewModel></vm:MainViewModel>
+        <vm:MainViewModel />
     </Window.DataContext>
     <Window.Resources>
-        <infra:ImageConverter x:Key="Converter"></infra:ImageConverter>
+        <infra:ImageConverter x:Key="Converter" />
         <DataTemplate x:Key="listDataTemplate">
             <Grid                
                 Width="{Binding ElementName=image_size, Path=Value}"
@@ -115,12 +115,30 @@
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Stretch">
                 <MenuItem Header="{DynamicResource m_Car}">
-                    <MenuItem Header="{DynamicResource m_Add}" Command="{Binding AddCar}"></MenuItem>
-                    <MenuItem Header="{DynamicResource m_Edit}" Command="{Binding EditCar}"></MenuItem>
-                    <MenuItem Header="{DynamicResource m_Remove}" Command="{Binding RemoveCar}"></MenuItem>
+                    <MenuItem Header="{DynamicResource m_Add}" Command="{Binding AddCar}" />
+                    <MenuItem Header="{DynamicResource m_Edit}" Command="{Binding EditCar}" />
+                    <MenuItem Header="{DynamicResource m_Remove}" Command="{Binding RemoveCar}" />
                 </MenuItem>
                 <MenuItem Header="{DynamicResource m_Specifications}">
-                    <MenuItem Header="{DynamicResource m_Edit}" Command="{Binding EditSpecificationsCommand}"></MenuItem>
+                    <MenuItem Header="{DynamicResource m_Edit}" Command="{Binding EditSpecificationsCommand}" />
+                </MenuItem>
+                <MenuItem Header="{DynamicResource m_Options}">
+                    <MenuItem Header="{DynamicResource m_Style}">
+                        <ComboBox FontSize="15" VerticalAlignment="Stretch"
+                                  ItemsSource="{Binding StyleLanguage.ThemeList}"
+                                  SelectedItem="{Binding StyleLanguage.SelectedListTheme}"/>
+                    </MenuItem>
+                    <MenuItem Header="{DynamicResource m_Language}">
+                        <ComboBox FontSize="15" VerticalAlignment="Stretch"
+                                  ItemsSource="{Binding StyleLanguage.LangList}"
+                                  SelectedItem="{Binding StyleLanguage.SelectedListLanguage}" />
+                    </MenuItem>
+                    <MenuItem Header="{DynamicResource m_ImageSize}">
+                        <Slider Width="100" Margin="10 2 10 2" x:Name="image_size" Grid.Column="1" Value="400" Minimum="300" Maximum="800"
+                                Orientation="Horizontal" Interval="100" Delay="500" IsSelectionRangeEnabled="True"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                        
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem 
                     Header="{DynamicResource m_Exit}"
@@ -132,89 +150,39 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <ComboBox   
-                    FontSize="15"
-                    ItemsSource="{Binding StyleLanguage.ThemeList}"
-                    SelectedItem="{Binding StyleLanguage.SelectedListTheme}"                    
-                    VerticalAlignment="Stretch">                    
-                </ComboBox>
-                <ComboBox
-                    FontSize="15"
-                    Grid.Column="1"
-                    VerticalAlignment="Stretch"
-                    ItemsSource="{Binding StyleLanguage.LangList}"
-                    SelectedItem="{Binding StyleLanguage.SelectedListLanguage}">
-                </ComboBox>
+                
+                
             </Grid>          
         </DockPanel>
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" MaxHeight="30"></RowDefinition>
-                <RowDefinition Height="10*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock
-                    FontSize="15"
-                    Margin="10 2 10 2"
-                    Text="{DynamicResource m_Image_Size}"></TextBlock>
-                <Slider
-                    Margin="10 2 10 2"
-                    x:Name="image_size"
-                    Grid.Column="1"
-                    Value="400"
-                    Minimum="300"
-                    Maximum="800"
-                    Orientation="Horizontal"
-                    Interval="100"
-                    Delay="500"
-                    IsSelectionRangeEnabled="True"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"></Slider>
-            </Grid>
-            <ListBox  
-                    Grid.Row="1"                    
-                    ItemsSource="{Binding ElementsWithFilters.CarsObservableCollection}"
-                    SelectedItem="{Binding SelectedCar}"
-                    ItemTemplate="{StaticResource listDataTemplate}"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox ItemsSource="{Binding ElementsWithFilters.CarsObservableCollection}"
+                     SelectedItem="{Binding SelectedCar}"
+                     ItemTemplate="{StaticResource listDataTemplate}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel></WrapPanel>
+                        <WrapPanel/>
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
             </ListBox>
-            <StackPanel
-                    Margin="2 2 0 0"
-                    Width="200"
-                    Grid.Row="1"
-                    HorizontalAlignment="Left">
+            <StackPanel Margin="2 2 0 0" Width="200" HorizontalAlignment="Left">
                 <StackPanel.Background>
                     <SolidColorBrush Opacity="{Binding FilterProperty.Opacity}" Color="LightGreen"/>
                 </StackPanel.Background>
-                <Expander 
-                        Header="{DynamicResource m_Filter}"                             
-                        ExpandDirection="Down"
-                        IsExpanded="{Binding FilterProperty.IsExpanded}">
+                <Expander Header="{DynamicResource m_Filter}" ExpandDirection="Down"
+                          IsExpanded="{Binding FilterProperty.IsExpanded}">
                     <StackPanel>
-                        <Expander
-                            Header="{DynamicResource Brand}"
-                            ExpandDirection="Down"
-                            IsExpanded="False">
-                            <ListBox                                
-                                ItemTemplate="{StaticResource listForCheckBox}"
-                                ItemsSource="{Binding ElementsWithFilters.FilterCollections.BrandsChecks}"                                
-                                MaxHeight="300">
+                        <Expander Header="{DynamicResource Manufacturer}" ExpandDirection="Down"
+                                  IsExpanded="False">
+                            <ListBox ItemTemplate="{StaticResource listForCheckBox}"
+                                     ItemsSource="{Binding ElementsWithFilters.FilterCollections.ManufacturerChecks}"                                        
+                                     MaxHeight="300">
                                 <ListBox.Background>
                                     <SolidColorBrush Opacity="{Binding FilterProperty.Opacity}"/>
                                 </ListBox.Background>
                             </ListBox>
                         </Expander>
-                        <Expander 
-                                Header="{DynamicResource BodyType}"
+                        <Expander Header="{DynamicResource BodyType}"
                                 ExpandDirection="Down"
                                 IsExpanded="False">
                             <ListBox
@@ -227,12 +195,12 @@
                             </ListBox>
                         </Expander>
                         <Expander
-                                Header="{DynamicResource Gearbox}"
+                                Header="{DynamicResource GearBoxType}"
                                 ExpandDirection="Down"
                                 IsExpanded="False">
                             <ListBox
                                     ItemTemplate="{StaticResource listForCheckBox}"
-                                    ItemsSource="{Binding ElementsWithFilters.FilterCollections.GearboxChecks}"
+                                    ItemsSource="{Binding ElementsWithFilters.FilterCollections.GearBoxTypesChecks}"
                                     MaxHeight="300">
                                 <ListBox.Background>
                                     <SolidColorBrush Opacity="{Binding FilterProperty.Opacity}"/>
@@ -240,7 +208,7 @@
                             </ListBox>
                         </Expander>
                         <Expander
-                                Header="{DynamicResource WheelDrive}"
+                                Header="{DynamicResource WheelDriveType}"
                                 ExpandDirection="Down"
                                 IsExpanded="False">
                             <ListBox

@@ -1,9 +1,7 @@
-﻿using CarsCatalog.DataAccessLayer;
-using CarsCatalog.Infrastructure;
+﻿using CarsCatalog.Infrastructure;
 using CarsCatalog.Model;
 using CarsCatalog.Model.DataProviders;
 using CarsCatalog.View;
-using dal_models = CarsCatalog.DataAccessLayer.DAL_Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +16,8 @@ using System.Windows;
 using CarsCatalog.ViewModel.Filter;
 using Themes;
 using CarsCatalog.ViewModel.StyleAndLanguage;
+using CarCatalogDAL;
+using CarCatalogDAL.Implementations;
 
 namespace CarsCatalog.ViewModel
 {
@@ -48,7 +48,9 @@ namespace CarsCatalog.ViewModel
         public IconProperty FilterProperty { get; set; }
         public IconProperty SortProperty { get; set; }
 
-        public FilterSortItems ElementsWithFilters { get; set; }        
+        public FilterSortItems ElementsWithFilters { get; set; }   
+        public Car SelectedCar { get; set; }
+
         #endregion
 
         #region Methods
@@ -80,26 +82,14 @@ namespace CarsCatalog.ViewModel
 
         private List<Car> GetCarList()
         {
-            List<Car> car_list = new List<Car>(uof
-                .Cars
-                    .GetAll()
-                        .Select(x => new Car(
-                            x.Id,
-                            x.Model,
-                            x.Image,
-                            x.Power,
-                            x.Price,
-                            uof.BodyTypes.GetAll().FirstOrDefault(y => y.Id == x.BodyTypeId),
-                            uof.Brands.GetAll().FirstOrDefault(y => y.Id == x.BrandId),
-                            uof.Gearboxes.GetAll().FirstOrDefault(y => y.Id == x.GearboxId),
-                            uof.WheelDrives.GetAll().FirstOrDefault(y => y.Id == x.WheelDriveId),
-                            Car_PropertyChanged)));
+            List<Car> car_list = new List<Car>(uof.Cars.GetAll());
+                
             return car_list;
         }      
 
         private void RemoveCarMethod(object o)
         {
-            dal_models.Car dal_car = uof.Cars.Get(SelectedCar.Id);
+            var dal_car = uof.Cars.Get(SelectedCar.ID);
             uof.Cars.Remove(dal_car);
             uof.SaveChanges();
             RemapCollections();
@@ -111,10 +101,9 @@ namespace CarsCatalog.ViewModel
             cds.Car = null;
             EditCarWindow ecw = new EditCarWindow();            
             ecw.ShowDialog();
-            if (cds.IsResultTrue)
+            if (cds.IsResultTrue && cds.Car != null)
             {               
-                dal_models.Car dal_car = CopyModelCarToDalCar(cds.Car);
-                uof.Cars.Add(dal_car);
+                uof.Cars.Add(cds.Car);
                 uof.SaveChanges();
                 RemapCollections();
             }
@@ -129,8 +118,7 @@ namespace CarsCatalog.ViewModel
             ecw.ShowDialog();
             if (cds.IsResultTrue)
             {
-                dal_models.Car dal_car = CopyModelCarToDalCar(cds.Car, uof.Cars.Get(cds.Car.Id));
-                uof.Cars.Update(dal_car);
+                uof.Cars.Update(cds.Car);
                 uof.SaveChanges();
                 RemapCollections();
             }
@@ -149,25 +137,6 @@ namespace CarsCatalog.ViewModel
             }
         }
 
-        private dal_models.Car CopyModelCarToDalCar(Car obj, dal_models.Car dal_car = null)
-        {
-            if (dal_car == null)
-            {
-                dal_car = new dal_models.Car();
-            }
-
-            dal_car.BrandId = obj.Brand.Id;
-            dal_car.BodyTypeId = obj.BodyType.Id;
-            dal_car.GearboxId = obj.Gearbox.Id;
-            dal_car.WheelDriveId = obj.WheelDrive.Id;
-            dal_car.Image = obj.Image;
-            dal_car.Model = obj.Model;
-            dal_car.Price = obj.Price;
-            dal_car.Power = obj.Power;
-
-            return dal_car;
-        }
-
         private void SaveMethod(object obj)
         {
             uof.SaveChanges();
@@ -179,18 +148,6 @@ namespace CarsCatalog.ViewModel
             editSpecificationWindow.ShowDialog();
             RemapCollections();
         }      
-
-        public void Car_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            Car car = sender as Car;
-            DataAccessLayer.DAL_Models.Car dal_car = uof.Cars.Get(car.Id);
-
-            CopyModelCarToDalCar(car, dal_car);          
-
-            uof.Cars.Update(dal_car);           
-        }
-
-        public Car SelectedCar { get; set; }
         #endregion
     }
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="04690d9ff1984d268a8161a681d6a566" Name="Cars">
+        <EntityTypeShape EntityType="CarCatalogModel.BodyTypeDB" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarCatalogModel.CarDB" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarCatalogModel.GearBoxTypeDB" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarCatalogModel.ManufacturerDB" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarCatalogModel.WheelDriveTypeDB" Width="1.5" PointX="0.75" PointY="10.375" IsExpanded="true" />
+        <AssociationConnector Association="CarCatalogModel.FK_Car_BodyType" ManuallyRouted="false" />
+        <AssociationConnector Association="CarCatalogModel.FK_Car_GearBoxType" ManuallyRouted="false" />
+        <AssociationConnector Association="CarCatalogModel.FK_Car_Manufacturer" ManuallyRouted="false" />
+        <AssociationConnector Association="CarCatalogModel.FK_Car_WheelDriveType" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

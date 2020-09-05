@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>CarsCatalog</RootNamespace>
     <AssemblyName>CarsCatalog</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -30,6 +30,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -59,6 +60,9 @@
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -95,23 +99,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataAccessLayer\BodyTypeRepository.cs" />
-    <Compile Include="DataAccessLayer\BrandRepository.cs" />
-    <Compile Include="DataAccessLayer\CarRepository.cs" />
-    <Compile Include="DataAccessLayer\CarsCatalogContext.cs" />
-    <Compile Include="DataAccessLayer\DAL_Models\BodyType.cs" />
-    <Compile Include="DataAccessLayer\DAL_Models\Brand.cs" />
-    <Compile Include="DataAccessLayer\DAL_Models\Car.cs" />
-    <Compile Include="DataAccessLayer\DAL_Models\Gearbox.cs" />
-    <Compile Include="DataAccessLayer\DAL_Models\Specification.cs" />
-    <Compile Include="DataAccessLayer\DAL_Models\WheelDrive.cs" />
-    <Compile Include="DataAccessLayer\GearboxRepository.cs" />
-    <Compile Include="DataAccessLayer\IRepository.cs" />
-    <Compile Include="DataAccessLayer\IUnitOfWork.cs" />
-    <Compile Include="DataAccessLayer\UnitOfWork.cs" />
-    <Compile Include="DataAccessLayer\WheelDriveRepository.cs" />
     <Compile Include="Infrastructure\ImageCopyManager.cs" />
-    <Compile Include="Model\Car.cs" />
     <Compile Include="Model\DataProviders\CarDataSingleton.cs" />
     <Compile Include="ViewModel\EditCarViewModel.cs" />
     <Compile Include="ViewModel\EditSpecificationViewModel.cs" />
@@ -142,9 +130,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="CarsCatalog.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -171,6 +156,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CarCatalogDAL\CarCatalogDAL.csproj">
+      <Project>{e49f9ace-35c7-4885-8a84-5f44a4612704}</Project>
+      <Name>CarCatalogDAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Languages\Languages.csproj">
       <Project>{f21a7132-4755-4ac4-986d-3e29d8834093}</Project>
       <Name>Languages</Name>

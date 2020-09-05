@@ -1,27 +1,26 @@
-﻿using CarsCatalog.DataAccessLayer.DAL_Models;
+﻿using CarCatalogDAL.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-namespace CarsCatalog.DataAccessLayer
+namespace CarCatalogDAL.Implementations
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public IRepository<Car> Cars { get; }     
-        public IRepository<Brand> Brands { get; }
+        public IRepository<Car> Cars { get; }
+        public IRepository<Manufacturer> Manufacturers { get; }
         public IRepository<BodyType> BodyTypes { get; }
-        public IRepository<Gearbox> Gearboxes { get; }
-        public IRepository<WheelDrive> WheelDrives { get; }
+        public IRepository<GearBoxType> GearBoxTypes { get; }
+        public IRepository<WheelDriveType> WheelDriveTypes { get; }
 
         public void SaveChanges()
         {
             context.SaveChanges();
         }
 
-        private CarsCatalogContext context;
+        private CarCatalogEntities context;
 
         private static UnitOfWork unit;
         public static UnitOfWork GetUnitOfWork()
@@ -34,13 +33,13 @@ namespace CarsCatalog.DataAccessLayer
         }
 
         private UnitOfWork()
-        {            
-            context = new CarsCatalogContext();
+        {
+            context = new CarCatalogEntities();
             Cars = new CarRepository(context);
-            Brands = new BrandRepository(context);
+            Manufacturers = new ManufacturerRepository(context);
             BodyTypes = new BodyTypeRepository(context);
-            Gearboxes = new GearboxRepository(context);
-            WheelDrives = new WheelDriveRepository(context);
-        }          
+            GearBoxTypes = new GearBoxTypeRepository(context);
+            WheelDriveTypes = new WheelDriveTypeRepository(context);
+        }
     }
 }

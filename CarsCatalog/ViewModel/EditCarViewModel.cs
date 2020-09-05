@@ -1,18 +1,14 @@
-﻿using CarsCatalog.DataAccessLayer;
-using dal = CarsCatalog.DataAccessLayer.DAL_Models;
-using CarsCatalog.Model;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using CarsCatalog.Model.DataProviders;
 using System.Windows.Input;
 using CarsCatalog.Infrastructure;
 using System.Windows;
 using CarsCatalog.ViewModel.StyleAndLanguage;
+using CarCatalogDAL.Implementations;
+using CarCatalogDAL;
 
 namespace CarsCatalog.ViewModel
 {
@@ -43,10 +39,10 @@ namespace CarsCatalog.ViewModel
 
         public StyleLangCollection StyleLanguage { get; }
 
-        public List<dal.BodyType> BodyTypes { get; }
-        public List<dal.Brand> Brands { get; }
-        public List<dal.Gearbox> Gearboxes { get; }
-        public List<dal.WheelDrive> WheelDrives { get; }
+        public List<BodyType> BodyTypes { get; }
+        public List<Manufacturer> Manufacturers { get; }
+        public List<GearBoxType> GearBoxTypes { get; }
+        public List<WheelDriveType> WheelDriveTypes { get; }
         #endregion
 
         #region Commands
@@ -61,9 +57,9 @@ namespace CarsCatalog.ViewModel
             StyleLanguage = StyleLangCollection.GetStyleLangCollection();
             uof = UnitOfWork.GetUnitOfWork();
             BodyTypes = uof.BodyTypes.GetAll().ToList();
-            Brands = uof.Brands.GetAll().ToList();
-            Gearboxes = uof.Gearboxes.GetAll().ToList();
-            WheelDrives = uof.WheelDrives.GetAll().ToList();
+            Manufacturers = uof.Manufacturers.GetAll().ToList();
+            GearBoxTypes = uof.GearBoxTypes.GetAll().ToList();
+            WheelDriveTypes = uof.WheelDriveTypes.GetAll().ToList();
 
             cds = CarDataSingleton.GetCarDataSingleton();
             Car = new Car();
@@ -78,10 +74,10 @@ namespace CarsCatalog.ViewModel
                 Car.Model = cds.Car.Model;
                 Car.Power = cds.Car.Power;
                 Car.Price = cds.Car.Price;
-                Car.Brand = cds.Car.Brand;
+                Car.WheelDriveType = cds.Car.WheelDriveType;
                 Car.BodyType = cds.Car.BodyType;
-                Car.Gearbox = cds.Car.Gearbox;
-                car.WheelDrive = cds.Car.WheelDrive;
+                Car.GearBoxType = cds.Car.GearBoxType;
+                car.WheelDriveType = cds.Car.WheelDriveType;
             }           
 
             AddImageCommand = new RelayCommand(AddImageMethod);
@@ -98,9 +94,9 @@ namespace CarsCatalog.ViewModel
         {
             Window w = o as Window;
             cds.Car.BodyType = Car.BodyType;
-            cds.Car.Brand = Car.Brand;
-            cds.Car.Gearbox = Car.Gearbox;
-            cds.Car.WheelDrive = Car.WheelDrive;
+            cds.Car.Manufacturer = Car.Manufacturer;
+            cds.Car.GearBoxType = Car.GearBoxType;
+            cds.Car.WheelDriveType = Car.WheelDriveType;
             cds.Car.Image = Car.Image;
             cds.Car.Model = Car.Model;
             cds.Car.Price = Car.Price;

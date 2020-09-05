@@ -14,18 +14,22 @@
     <s:String x:Key="m_Remove">Remove</s:String>
 
     <s:String x:Key="m_Specifications">Specifications</s:String>
-    <s:String x:Key="m_Exit">Exit</s:String>
 
-    <s:String x:Key="m_Image_Size">Image size</s:String>
+    <s:String x:Key="m_Options">Options</s:String>
+    <s:String x:Key="m_Style">Style</s:String>
+    <s:String x:Key="m_Language">Language</s:String>
+    <s:String x:Key="m_ImageSize">Image Size</s:String>
+
+    <s:String x:Key="m_Exit">Exit</s:String>
 
     <s:String x:Key="m_Filter">Filter</s:String>
     <s:String x:Key="m_Sort">Sort</s:String>
 
 
-    <s:String x:Key="Brand">Brand</s:String>
+    <s:String x:Key="Manufacturer">Manufacturer</s:String>
     <s:String x:Key="BodyType">Body type</s:String>
-    <s:String x:Key="Gearbox">Gearbox</s:String>
-    <s:String x:Key="WheelDrive">Wheel drive</s:String>
+    <s:String x:Key="GearBoxType">Gearbox</s:String>
+    <s:String x:Key="WheelDriveType">Wheel drive</s:String>
 
     <s:String x:Key="m_PriceIncreases">Price Increases</s:String>
     <s:String x:Key="m_PriceDecreases">Price Decreases</s:String>

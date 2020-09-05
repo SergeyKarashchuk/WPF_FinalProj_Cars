@@ -14,19 +14,24 @@
     <s:String x:Key="m_Remove">Удалить</s:String>
 
     <s:String x:Key="m_Specifications">Характеристики</s:String>
+
+    <s:String x:Key="m_Options">Настройки</s:String>
+    <s:String x:Key="m_Style">Стиль</s:String>
+    <s:String x:Key="m_Language">Язык</s:String>
+    <s:String x:Key="m_ImageSize">Размер изображения</s:String>
+    
     <s:String x:Key="m_Exit">Выход</s:String>
 
-    <s:String x:Key="m_Image_Size">Размер изображения</s:String>
     <s:String x:Key="m_Image">Изображение</s:String>
 
     <s:String x:Key="m_Filter">Фильтр</s:String>
     <s:String x:Key="m_Sort">Сортировка</s:String>
 
 
-    <s:String x:Key="Brand">Марка</s:String>
+    <s:String x:Key="Manufacturer">Марка</s:String>
     <s:String x:Key="BodyType">Тип кузова</s:String>
-    <s:String x:Key="Gearbox">Коробка передач</s:String>
-    <s:String x:Key="WheelDrive">Тип привода</s:String>
+    <s:String x:Key="GearBoxType">Коробка передач</s:String>
+    <s:String x:Key="WheelDriveType">Тип привода</s:String>
     
     <s:String x:Key="m_PriceIncreases">По возрастанию цены</s:String>
     <s:String x:Key="m_PriceDecreases">По убыванию цены</s:String>

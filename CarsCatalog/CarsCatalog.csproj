@@ -103,8 +103,8 @@
     <Compile Include="Infrastructure\Converters\BooleanVisibilityConverter.cs" />
     <Compile Include="Infrastructure\DI\CarCatalogModule.cs" />
     <Compile Include="Infrastructure\DI\DependencyResolver.cs" />
+    <Compile Include="Infrastructure\IApplicationNavigation.cs" />
     <Compile Include="Infrastructure\ImageCopyManager.cs" />
-    <Compile Include="Model\DataProviders\CarDataSingleton.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\CarCatalogViewModel.cs" />
     <Compile Include="ViewModel\EditCarViewModel.cs" />
@@ -122,11 +122,11 @@
     <Compile Include="View\CarCatalogUC.xaml.cs">
       <DependentUpon>CarCatalogUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\EditCarWindow.xaml.cs">
-      <DependentUpon>EditCarWindow.xaml</DependentUpon>
+    <Compile Include="View\EditCarUC.xaml.cs">
+      <DependentUpon>EditCarUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\EditSpecificationWindow.xaml.cs">
-      <DependentUpon>EditSpecificationWindow.xaml</DependentUpon>
+    <Compile Include="View\EditSpecificationUC.xaml.cs">
+      <DependentUpon>EditSpecificationUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -163,11 +163,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\EditCarWindow.xaml">
+    <Page Include="View\EditCarUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\EditSpecificationWindow.xaml">
+    <Page Include="View\EditSpecificationUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -204,6 +204,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.109.2\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.109.2\build\net46\System.Data.SQLite.Core.targets')" />

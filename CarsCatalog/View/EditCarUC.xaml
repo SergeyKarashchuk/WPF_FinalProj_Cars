@@ -1,4 +1,4 @@
-﻿<Window x:Class="CarsCatalog.View.EditCarWindow"
+﻿<local:ModuleUserControl x:Class="CarsCatalog.View.EditCarUC"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,24 +10,15 @@
         xmlns:infra="clr-namespace:CarsCatalog.Infrastructure"
         mc:Ignorable="d"
         themes:ThemeManager.Theme="{Binding StyleLanguage.SelectedTheme}"
-        lang:LanguageManager.Language="{Binding StyleLanguage.SelectedLanguage}"
-        Title="{DynamicResource car_Title}" 
-        Height="700"
-        Width="800"
-        MinWidth="600"
-        MinHeight="600"
-        x:Name="wnd">
-    <Window.DataContext>
-        <vm:EditCarViewModel></vm:EditCarViewModel>
-    </Window.DataContext>
-    <Window.Resources>        
-        <infra:ImageConverter x:Key="ImageConverter"></infra:ImageConverter>       
+        lang:LanguageManager.Language="{Binding StyleLanguage.SelectedLanguage}">
+    <local:ModuleUserControl.Resources>
+        <infra:ImageConverter x:Key="ImageConverter"/>
         <DataTemplate x:Key="comboboxItemTemplate">
             <Grid
                 Width="200">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1.5*"/>
                 </Grid.ColumnDefinitions>
                 <Image 
                     Height="25"
@@ -36,7 +27,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Stretch="Uniform"
-                    Source="{Binding Image, Converter={StaticResource ImageConverter}}"></Image>
+                    Source="{Binding Image, Converter={StaticResource ImageConverter}}"/>
                 <TextBlock
                     Grid.Column="1"
                     Margin="5"
@@ -44,28 +35,28 @@
                     VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch"
                     TextAlignment="Justify"
-                    FontSize="15"></TextBlock>
+                    FontSize="15"/>
             </Grid>
         </DataTemplate>
-    </Window.Resources>
+    </local:ModuleUserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="2*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="0.3*" ></RowDefinition>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.3*"/>
         </Grid.RowDefinitions>
         <Grid
             VerticalAlignment="Stretch"
             Height="40"
             Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <ComboBox
                 VerticalAlignment="Stretch"
@@ -92,7 +83,7 @@
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             Stretch="Uniform"
-            Source="{Binding Car.Image, Converter={StaticResource ImageConverter}}"></Image>
+            Source="{Binding Car.Image, Converter={StaticResource ImageConverter}}"/>
         <Button 
             Grid.Row="1"
             Grid.Column="0"
@@ -105,11 +96,11 @@
             Grid.Row="1"
             Grid.Column="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*"></RowDefinition>
-                <RowDefinition Height="0.5*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="0.5*"></RowDefinition>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.5*"/>
             </Grid.RowDefinitions>
             <Image
                 MaxHeight="120"
@@ -117,7 +108,7 @@
                 Stretch="Uniform"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Source="{Binding Car.Brand.Image, Converter={StaticResource ImageConverter}}"></Image>
+                Source="{Binding Car.Manufacturer.Image, Converter={StaticResource ImageConverter}}"/>
             <TextBox
                 Grid.Row="1"
                 HorizontalAlignment="Stretch"
@@ -125,8 +116,9 @@
                 TextAlignment="Center"
                 Margin="5"
                 FontSize="20"
+                Height="30"
                 FontWeight="Bold"    
-                Text="{Binding Car.Model}"></TextBox>
+                Text="{Binding Car.Model}"/>
             <Image 
                 Grid.Row="2"
                 Margin="5"
@@ -135,27 +127,27 @@
                 MaxHeight="70"
                 Stretch="Uniform"
                 Source="{Binding Car.BodyType.Image, Converter={StaticResource ImageConverter}}"
-                Height="50"></Image>
+                Height="50"/>
             <Grid 
                 Margin="5"
                 Grid.Row="3">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Image 
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     MaxHeight="70" 
                     Stretch="Uniform"  
-                    Source="{Binding Car.Gearbox.Image, Converter={StaticResource ImageConverter}}"></Image>
+                    Source="{Binding Car.GearBoxType.Image, Converter={StaticResource ImageConverter}}"/>
                 <Image
                     Grid.Column="1"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     MaxHeight="70"    
                     Stretch="Uniform"
-                    Source="{Binding Car.WheelDrive.Image, Converter={StaticResource ImageConverter}}"></Image>
+                    Source="{Binding Car.WheelDriveType.Image, Converter={StaticResource ImageConverter}}"/>
             </Grid>
             <TextBox
                 Grid.Row="4"
@@ -163,16 +155,17 @@
                 VerticalAlignment="Center"
                 TextAlignment="Center"                
                 Margin="5"
+                Height="30"
                 FontSize="20"             
                 FontWeight="Bold"
-                Text="{Binding Car.Price}"></TextBox>
+                Text="{Binding Car.Price}"/>
         </Grid>
         <Grid
             Margin="2"
             Grid.Row="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid 
                 Height="Auto"
@@ -180,24 +173,24 @@
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock
                     Margin="2"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="20"
-                    Text="{DynamicResource Brand}"></TextBlock>
+                    Text="{DynamicResource Brand}"/>
                 <ComboBox
                     Grid.Row="1"
                     Margin ="5 2 5 2"
                     Width ="200"
                     HorizontalAlignment = "Stretch"
                     Height ="40"
-                    ItemsSource="{Binding Brands}"
+                    ItemsSource="{Binding Manufacturers}"
                     ItemTemplate="{StaticResource comboboxItemTemplate}"
-                    SelectedItem="{Binding Car.Brand}"></ComboBox>
+                    SelectedItem="{Binding Car.Manufacturer}"/>
             </Grid>
             <Grid
                 Grid.Row="1"
@@ -206,15 +199,15 @@
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock
                     Margin="2"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="20"
-                    Text="{DynamicResource BodyType}"></TextBlock>
+                    Text="{DynamicResource BodyType}"/>
                 <ComboBox   
                     Grid.Row="1"
                     Margin ="5 2 5 2"
@@ -223,7 +216,7 @@
                     Height ="40"
                     ItemsSource="{Binding BodyTypes}"
                     ItemTemplate="{StaticResource comboboxItemTemplate}"
-                    SelectedItem="{Binding Car.BodyType}"></ComboBox>
+                    SelectedItem="{Binding Car.BodyType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </Grid>
         <Grid  
@@ -231,8 +224,8 @@
             Grid.Row="2"
             Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid 
                 Height="Auto"
@@ -240,25 +233,25 @@
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock
                     Margin="2"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="20"
-                    Text="{DynamicResource Gearbox}"></TextBlock>
+                    Text="{DynamicResource GearBoxType}"/>
                 <ComboBox
                     Grid.Row="1"
                     Margin ="5 2 5 2"
                     Width ="200"
                     HorizontalAlignment = "Stretch"
                     Height ="40"
-                    ItemsSource="{Binding Gearboxes}"
+                    ItemsSource="{Binding GearBoxTypes}"
                     ItemTemplate="{StaticResource comboboxItemTemplate}"
-                    SelectedItem="{Binding Car.Gearbox}"></ComboBox>
-                   
+                    SelectedItem="{Binding Car.GearBoxType}"/>
+
             </Grid>
             <Grid
                 Grid.Row="1"
@@ -267,36 +260,36 @@
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock
                     Margin="2"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="20"
-                    Text="{DynamicResource WheelDrive}"></TextBlock>
+                    Text="{DynamicResource WheelDriveType}"/>
                 <ComboBox
                     Grid.Row="1"
                     Margin ="5 2 5 2"
                     Width ="200"
                     HorizontalAlignment = "Stretch"
                     Height ="40"   
-                    ItemsSource="{Binding WheelDrives}"
+                    ItemsSource="{Binding WheelDriveTypes}"
                     ItemTemplate="{StaticResource comboboxItemTemplate}"
-                    SelectedItem="{Binding Car.WheelDrive}"></ComboBox>               
+                    SelectedItem="{Binding Car.WheelDriveType}"/>
             </Grid>
         </Grid>
         <Button 
             Margin="5"
             Grid.Row="3"
             Content="{DynamicResource car_Ok}"
-            Command="{Binding AcceptCommand}" CommandParameter="{Binding ElementName=wnd}"></Button>
+            Command="{Binding AcceptCommand}" />
         <Button 
             Margin="5"
             Grid.Column="1"
             Grid.Row="3"
             Content="{DynamicResource car_Cencel}"
-            Command="{Binding CencelCommand}" CommandParameter="{Binding ElementName=wnd}"></Button>
+            Command="{Binding CencelCommand}"/>
     </Grid>
-</Window>
+</local:ModuleUserControl>

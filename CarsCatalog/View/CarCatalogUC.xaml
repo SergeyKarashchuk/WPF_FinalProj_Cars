@@ -11,6 +11,7 @@
         lang:LanguageManager.Language="{Binding StyleLanguage.SelectedLanguage}"
         themes:ThemeManager.Theme="{Binding StyleLanguage.SelectedTheme}"       
         mc:Ignorable="d">
+    
     <local:ModuleUserControl.DataContext>
         <vm:CarCatalogViewModel />
     </local:ModuleUserControl.DataContext>
@@ -38,7 +39,7 @@
                     </Grid.RowDefinitions>
                     <Image 
                         HorizontalAlignment="Left" Stretch="Uniform"
-                        Source="{Binding Brand.Image, Converter={StaticResource ImageConverter}}" />
+                        Source="{Binding Manufacturer.Image, Converter={StaticResource ImageConverter}}" />
                     <TextBlock 
                         Grid.Row="1" Margin="2"
                         TextAlignment="Center" FontSize="18" FontWeight="Bold"  
@@ -56,12 +57,12 @@
                         <Image 
                             HorizontalAlignment="Stretch"
                             Stretch="Uniform"
-                            Source="{Binding Gearbox.Image, Converter={StaticResource ImageConverter}}"/>
+                            Source="{Binding GearBoxType.Image, Converter={StaticResource ImageConverter}}"/>
                         <Image
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
                             Stretch="Uniform"
-                            Source="{Binding WheelDrive.Image, Converter={StaticResource ImageConverter}}"/>
+                            Source="{Binding WheelDriveType.Image, Converter={StaticResource ImageConverter}}"/>
                     </Grid>
                     <TextBlock
                         Grid.Row="4"

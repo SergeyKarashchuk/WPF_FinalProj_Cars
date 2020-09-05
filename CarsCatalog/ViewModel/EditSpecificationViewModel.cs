@@ -2,7 +2,6 @@
 using CarCatalogDAL.Implementations;
 using CarCatalogDAL.Models;
 using CarsCatalog.Infrastructure;
-using CarsCatalog.Model.DataProviders;
 using CarsCatalog.ViewModel.StyleAndLanguage;
 using System;
 using System.Collections.Generic;
@@ -17,16 +16,8 @@ using System.Windows.Input;
 
 namespace CarsCatalog.ViewModel
 {
-    public class EditSpecificationViewModel : INotifyPropertyChanged
+    public class EditSpecificationViewModel : BaseViewModel
     {
-        #region PropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void Notify([CallerMemberName]string property = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-        #endregion
 
         #region Commands
         public ICommand UpdateCommand { get; }
@@ -40,8 +31,6 @@ namespace CarsCatalog.ViewModel
         #endregion
 
         #region Properties
-        private UnitOfWork uof;
-
         private ObservableCollection<ISpecification> specifications;
         public ObservableCollection<ISpecification> Specifications
         {
@@ -74,50 +63,51 @@ namespace CarsCatalog.ViewModel
                 Notify();
             }
         }
-
-        public StyleLangCollection StyleLanguage { get; }
         #endregion
 
         #region Methods
         public EditSpecificationViewModel()
         {
-            StyleLanguage = StyleLangCollection.GetStyleLangCollection();
             ExitCommand = new RelayCommand(ExitMethod);
             EditImage = new RelayCommand(AddImageMethod, x => SelectedItem != null);
             SelectCollectionCommand = new RelayCommand(SelectCollectionMethod);
-            UpdateCommand = new RelayCommand(UpdateMethod);
-            AddCommand = new RelayCommand(CreateNewSpecification);
-            RemoveCommand = new RelayCommand(RemoveSpecification, x => SelectedItem != null);
-        }       
+            UpdateCommand = new RelayCommand(UpdateMethod, x => SelectedItem != null && SelectedItem.ID > 0);
+            AddCommand = new RelayCommand(CreateNewSpecification, x => SelectedItem != null && SelectedItem.ID == 0);
+            RemoveCommand = new RelayCommand(RemoveSpecification, x => SelectedItem != null && SelectedItem.ID > 0);
+            Specifications = new ObservableCollection<ISpecification>();
+        }
 
         private void SelectCollectionMethod(object o)
         {
             CurrentCollection = o as string;
             var list = new List<ISpecification>();
-            Specifications = new ObservableCollection<ISpecification>();
             switch (CurrentCollection)
             {
                 case "BodyType":
+                    SelectedItem = new BodyType();
                     list.AddRange(uof.BodyTypes.GetAll());
                     break;
 
                 case "Manufacturer":
+                    SelectedItem = new Manufacturer();
                     list.AddRange(uof.Manufacturers.GetAll());
                     break;
 
                 case "GearBoxType":
+                    SelectedItem = new GearBoxType();
                     list.AddRange(uof.GearBoxTypes.GetAll());
                     break;
 
                 case "WheelDriveType":
+                    SelectedItem = new WheelDriveType();
                     list.AddRange(uof.WheelDriveTypes.GetAll());
                     break;
 
                 default:
                     break;
             }
-
-            Specifications = new ObservableCollection<ISpecification>(list);
+            Specifications.Clear();
+            list.ForEach(x => Specifications.Add(x));
         }
 
         private void AddImageMethod(object o)
@@ -131,20 +121,33 @@ namespace CarsCatalog.ViewModel
 
         private void UpdateMethod(object o)
         {
-            uof.SaveChanges();
+            switch (CurrentCollection)
+            {
+                case "BodyType":
+                    uof.BodyTypes.Update(SelectedItem as BodyType);
+                    break;
+
+                case "Manufacturer":
+                    uof.Manufacturers.Update(SelectedItem as Manufacturer);
+                    break;
+
+                case "GearBoxType":
+                    uof.GearBoxTypes.Update(SelectedItem as GearBoxType);
+                    break;
+
+                case "WheelDriveType":
+                    uof.WheelDriveTypes.Update(SelectedItem as WheelDriveType);
+                    break;
+
+                default:
+                    return;
+            }
+            RemapCollection();
         }
 
         private void ExitMethod(object o)
         {
-            try
-            {
-                Window w = o as Window;
-                w.Close();
-            }
-            catch
-            {
-
-            }
+            navigation.ClosePage();
         }
 
         private void CreateNewSpecification(object o)
@@ -152,29 +155,25 @@ namespace CarsCatalog.ViewModel
             switch (CurrentCollection)
             {
                 case "BodyType":
-                    SelectedItem = new BodyType();
                     uof.BodyTypes.Add(SelectedItem as BodyType);
                     break;
 
                 case "Manufacturer":
-                    SelectedItem = new Manufacturer();
                     uof.Manufacturers.Add(SelectedItem as Manufacturer);
                     break;
 
                 case "GearBoxType":
-                    SelectedItem = new GearBoxType();
                     uof.GearBoxTypes.Add(SelectedItem as GearBoxType);
                     break;
 
                 case "WheelDriveType":
-                    SelectedItem = new WheelDriveType();
                     uof.WheelDriveTypes.Add(SelectedItem as WheelDriveType);
                     break;
 
                 default:
                     return;
             }
-            SelectCollectionMethod(CurrentCollection);
+            RemapCollection();
         }
 
         private void RemapCollection()
@@ -206,7 +205,6 @@ namespace CarsCatalog.ViewModel
                 default:
                     return;
             }
-            Specifications.Remove(SelectedItem);
             RemapCollection();
         }
         #endregion

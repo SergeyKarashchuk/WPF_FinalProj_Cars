@@ -43,7 +43,7 @@ namespace CarCatalogDAL.Implementations
             tmp.Image = obj.Image;
             tmp.Power = obj.Power;
             tmp.Price = obj.Price;
-            db.Entry(obj).State = EntityState.Modified;            
+            db.Entry(tmp).State = EntityState.Modified;            
         }
 
         public Car Get(int id)
@@ -51,6 +51,7 @@ namespace CarCatalogDAL.Implementations
             var entity = db.Car.Find(id);
             var car = new Car
             {
+                ID = entity.ID,
                 Model = entity.Model,
                 Image = entity.Image,
                 Power = entity.Power,
@@ -91,7 +92,7 @@ namespace CarCatalogDAL.Implementations
         public BindingList<Car> GetAll()
         {
             db.Car.Load();
-            return new ObservableCollection<Car>(db.Car.Select(x => new Car
+            var list = db.Car.Select(x => new Car
             {
                 ID = x.ID,
                 Model = x.Model,
@@ -122,7 +123,8 @@ namespace CarCatalogDAL.Implementations
                     Name = x.GearBoxType.Name,
                     Image = x.GearBoxType.Image,
                 },
-            })).ToBindingList();
+            }).ToList();
+            return new ObservableCollection<Car>(list).ToBindingList();
         }
 
         public void Remove(Car obj)

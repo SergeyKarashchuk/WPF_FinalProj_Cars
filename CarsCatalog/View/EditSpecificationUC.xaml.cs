@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace CarsCatalog.View
 {
     /// <summary>
-    /// Interaction logic for EditSpecificationWindow.xaml
+    /// Interaction logic for EditSpecificationUC.xaml
     /// </summary>
-    public partial class EditSpecificationWindow : Window
+    public partial class EditSpecificationUC
     {
-        public EditSpecificationWindow()
+        public EditSpecificationUC()
         {
             InitializeComponent();
         }

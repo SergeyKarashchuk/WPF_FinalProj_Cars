@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CarCatalogDAL.Models
 {
-    public class BaseNotifyEntity : INotifyPropertyChanged
+    public abstract class BaseNotifyEntity : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         protected void Notify([CallerMemberName] string property = "")

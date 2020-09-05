@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarsCatalog.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +18,13 @@ namespace CarsCatalog.View
     /// <summary>
     /// Interaction logic for EditCarWindow.xaml
     /// </summary>
-    public partial class EditCarWindow : Window
+    public partial class EditCarUC
     {
-        public EditCarWindow()
+        public EditCarUC(int? carID = null)
         {
             InitializeComponent();
+
+            DataContext = new EditCarViewModel(carID);
         }
     }
 }

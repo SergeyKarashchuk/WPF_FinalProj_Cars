@@ -14,6 +14,7 @@ namespace CarsCatalog.Infrastructure.DI
         public override void Load()
         {
             Bind<IUnitOfWork>().To<UnitOfWork>().InSingletonScope();
+            Bind<IApplicationNavigation>().To<ApplicationNavigation>().InSingletonScope();
         }
     }
 }

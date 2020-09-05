@@ -1,23 +1,10 @@
 ﻿using CarsCatalog.Infrastructure;
-using CarsCatalog.Model;
-using CarsCatalog.Model.DataProviders;
 using CarsCatalog.View;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows;
-using CarsCatalog.ViewModel.Filter;
-using Themes;
-using CarsCatalog.ViewModel.StyleAndLanguage;
-using CarCatalogDAL;
-using CarCatalogDAL.Implementations;
 
 namespace CarsCatalog.ViewModel
 {
@@ -45,18 +32,87 @@ namespace CarsCatalog.ViewModel
             }
         }
 
+        private class NavigationItem
+        {
+            public object Sender { get; set; }
+            public ModuleUserControl Control { get; set; }
+        }
+
+        private List<NavigationItem> navigationList = new List<NavigationItem>();
+        private ModuleUserControl currentControl;
+        public ModuleUserControl CurrentControl
+        {
+            get => currentControl; 
+            set 
+            {
+                currentControl = value;
+                Notify();
+            }
+        }
+        private readonly IApplicationNavigation applicationNavigation;
+
         public MainViewModel()
         {
             IsWaitWisible = false;
             IsMainEnable = true;
-            //ApplicationAwaiter.WindowWaitEventHandler += (s, e) =>
-            //{
-            //    Application.Current.Dispatcher.Invoke(() =>
-            //    {
-            //        IsWaitWisible = e.IsAwait;
-            //        IsMainEnable = !e.IsAwait;
-            //    });
-            //};
+            applicationNavigation = DependencyResolver.Resolve<IApplicationNavigation>();
+          
+            applicationNavigation.WindowWaitEventHandler += (s, e) =>
+            {
+                ExecuteOperationInSyncThread(() =>
+                {
+                    IsWaitWisible = e.IsAwait;
+                    IsMainEnable = !e.IsAwait;
+                });
+            };
+
+            applicationNavigation.ChangeCurrentWindowEventHandler += (s, e) =>
+            {
+                ExecuteOperationInSyncThread(() =>
+                {
+                    if (CurrentControl != null)
+                        navigationList.Add(new NavigationItem { Sender = s, Control = CurrentControl });
+                    CurrentControl = e.NewUserControl;
+                });
+            };
+
+            applicationNavigation.ClosePageEvent += (s, e) =>
+            {
+                var lastNavItem = navigationList.LastOrDefault();
+                if (lastNavItem != null)
+                {
+                    CurrentControl = lastNavItem.Control;
+                    (CurrentControl.DataContext as BaseViewModel)?.Remap();
+                }
+                else
+                {
+                    Remap();
+                }
+            };
+
+            applicationNavigation.SetAwaiter(true);
+
+            Task.Factory.StartNew(async () =>
+            {
+                await Task.Delay(TimeSpan.FromSeconds(3)).ConfigureAwait(false);
+                ExecuteOperationInSyncThread(() =>
+                {
+                    Remap();
+                });
+            });
+        }
+
+        private void ExecuteOperationInSyncThread(Action action)
+        {
+            Application.Current.Dispatcher.BeginInvoke(action);
+        }
+
+        public override void Remap()
+        {
+            var uc = new CarCatalogUC();
+            applicationNavigation.OpenNewWindow(uc);
+            applicationNavigation.SetAwaiter(false);
+            navigationList.Clear();
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using CarCatalogDAL;
 using CarsCatalog.Infrastructure;
-using CarsCatalog.Model.DataProviders;
 using CarsCatalog.View;
 using CarsCatalog.ViewModel.Filter;
 using System;
@@ -40,8 +39,8 @@ namespace CarsCatalog.ViewModel
         {
             RemoveCar = new RelayCommand(RemoveCarMethod, x => SelectedCar != null);
             ExitCommand = new RelayCommand(ExitMethod);
-            AddCar = new RelayCommand(AddNewCar);
-            EditCar = new RelayCommand(EditSelectedCar, x => SelectedCar != null);
+            AddCar = new RelayCommand(o => AddOrUpdateCar());
+            EditCar = new RelayCommand(o => AddOrUpdateCar(), x => SelectedCar != null);
             EditSpecificationsCommand = new RelayCommand(EditSpecificationsMethod);
 
             FilterProperty = new IconProperty();
@@ -73,33 +72,10 @@ namespace CarsCatalog.ViewModel
             RemapCollections();
         }
 
-        private void AddNewCar(object o)
+        private void AddOrUpdateCar()
         {
-            CarDataSingleton cds = CarDataSingleton.GetCarDataSingleton();
-            cds.Car = null;
-            EditCarWindow ecw = new EditCarWindow();
-            ecw.ShowDialog();
-            if (cds.IsResultTrue && cds.Car != null)
-            {
-                uof.Cars.Add(cds.Car);
-                uof.SaveChanges();
-                RemapCollections();
-            }
-        }
-
-        private void EditSelectedCar(object o)
-        {
-            CarDataSingleton cds = CarDataSingleton.GetCarDataSingleton();
-            cds.Car = SelectedCar;
-
-            EditCarWindow ecw = new EditCarWindow();
-            ecw.ShowDialog();
-            if (cds.IsResultTrue)
-            {
-                uof.Cars.Update(cds.Car);
-                uof.SaveChanges();
-                RemapCollections();
-            }
+            var ecw = new EditCarUC(SelectedCar?.ID);
+            navigation.OpenNewWindow(ecw);
         }
 
         private void ExitMethod(object o)
@@ -114,8 +90,11 @@ namespace CarsCatalog.ViewModel
 
         private void EditSpecificationsMethod(object o)
         {
-            EditSpecificationWindow editSpecificationWindow = new EditSpecificationWindow();
-            editSpecificationWindow.ShowDialog();
+            navigation.OpenNewWindow(new EditSpecificationUC());
+        }
+
+        public override void Remap()
+        {
             RemapCollections();
         }
         #endregion

@@ -53,7 +53,7 @@ namespace CarsCatalog.ViewModel.Filter
         {
             foreach (var item in FilterCollections.ManufacturerChecks)
             {
-                if (carsList.FirstOrDefault(x => x.Manufacturer.Name == item.Name) == null)
+                if (carsList.FirstOrDefault(x => x.Manufacturer?.Name == item.Name) == null)
                 {
                     item.IsEnabled = false;
                     item.IsChecked = false;
@@ -65,7 +65,7 @@ namespace CarsCatalog.ViewModel.Filter
         {
             foreach (var item in FilterCollections.BodyTypesChecks)
             {
-                if (carsList.FirstOrDefault(x => x.BodyType.Name == item.Name) == null)
+                if (carsList.FirstOrDefault(x => x.BodyType?.Name == item.Name) == null)
                 {
                     item.IsEnabled = false;
                     item.IsChecked = false;
@@ -77,7 +77,7 @@ namespace CarsCatalog.ViewModel.Filter
         {
             foreach (var item in FilterCollections.GearBoxTypesChecks)
             {
-                if (carsList.FirstOrDefault(x => x.GearBoxType.Name == item.Name) == null)
+                if (carsList.FirstOrDefault(x => x.GearBoxType?.Name == item.Name) == null)
                 {
                     item.IsEnabled = false;
                     item.IsChecked = false;
@@ -89,7 +89,7 @@ namespace CarsCatalog.ViewModel.Filter
         {
             foreach (var item in FilterCollections.WheelDriveChecks)
             {
-                if (carsList.FirstOrDefault(x => x.WheelDriveType.Name == item.Name) == null)
+                if (carsList.FirstOrDefault(x => x.WheelDriveType?.Name == item.Name) == null)
                 {
                     item.IsEnabled = false;
                     item.IsChecked = false;

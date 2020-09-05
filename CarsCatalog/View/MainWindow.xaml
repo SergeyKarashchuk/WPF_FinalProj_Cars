@@ -24,12 +24,13 @@
     </Window.Resources>
     <Grid>
         <ContentControl 
-            Opacity="0.8"
+            Opacity="0.5"
             Visibility="{Binding IsWaitWisible, Converter={StaticResource BooleanVisibilityConverter}}">
             <local:AwaitUC />
         </ContentControl>
-        <ContentControl IsEnabled="{Binding IsMainEnable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <local:CarCatalogUC/>
+        <ContentControl
+            IsEnabled="{Binding IsMainEnable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Content="{Binding CurrentControl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         </ContentControl>
     </Grid>
 </Window>

@@ -35,7 +35,7 @@ namespace CarCatalogDAL.Implementations
                 return;
             tmp.Name = obj.Name;
             tmp.Image = obj.Image;
-            db.Entry(obj).State = EntityState.Modified;
+            db.Entry(tmp).State = EntityState.Modified;
         }
 
         public BodyType Get(int id)

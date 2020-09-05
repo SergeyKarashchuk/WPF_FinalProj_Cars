@@ -7,7 +7,6 @@ using System.Windows.Controls;
 
 namespace CarsCatalog.View
 {
-
     public class ModuleUserControl : UserControl
     {
 

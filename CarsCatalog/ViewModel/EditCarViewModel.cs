@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using CarsCatalog.Model.DataProviders;
 using System.Windows.Input;
 using CarsCatalog.Infrastructure;
 using System.Windows;
@@ -15,7 +14,6 @@ namespace CarsCatalog.ViewModel
     public class EditCarViewModel : BaseViewModel
     {
         #region Properties
-        private CarDataSingleton cds;
 
         private Car car;
         public Car Car
@@ -41,32 +39,13 @@ namespace CarsCatalog.ViewModel
         #endregion
 
         #region Methods
-        public EditCarViewModel()
+        public EditCarViewModel(int? ID = null)
         {
             BodyTypes = uof.BodyTypes.GetAll().ToList();
             Manufacturers = uof.Manufacturers.GetAll().ToList();
             GearBoxTypes = uof.GearBoxTypes.GetAll().ToList();
             WheelDriveTypes = uof.WheelDriveTypes.GetAll().ToList();
-
-            cds = CarDataSingleton.GetCarDataSingleton();
-            Car = new Car();
-
-            if (cds.Car == null)
-            {
-                cds.Car = new Car();
-            }
-            else
-            {
-                Car.Image = cds.Car.Image;
-                Car.Model = cds.Car.Model;
-                Car.Power = cds.Car.Power;
-                Car.Price = cds.Car.Price;
-                Car.WheelDriveType = cds.Car.WheelDriveType;
-                Car.BodyType = cds.Car.BodyType;
-                Car.GearBoxType = cds.Car.GearBoxType;
-                car.WheelDriveType = cds.Car.WheelDriveType;
-            }           
-
+            Car = ID > 0 ? uof.Cars.Get(ID.Value) : new Car();
             AddImageCommand = new RelayCommand(AddImageMethod);
             AcceptCommand = new RelayCommand(AcceptMethod);
             CencelCommand = new RelayCommand(CencelMethod);
@@ -79,23 +58,17 @@ namespace CarsCatalog.ViewModel
         
         private void AcceptMethod(object o)
         {
-            Window w = o as Window;
-            cds.Car.BodyType = Car.BodyType;
-            cds.Car.Manufacturer = Car.Manufacturer;
-            cds.Car.GearBoxType = Car.GearBoxType;
-            cds.Car.WheelDriveType = Car.WheelDriveType;
-            cds.Car.Image = Car.Image;
-            cds.Car.Model = Car.Model;
-            cds.Car.Price = Car.Price;
-            cds.IsResultTrue = true;
-            w.Close();
+            if (Car.ID == 0)
+                uof.Cars.Add(Car);
+            else
+                uof.Cars.Update(Car);
+            uof.SaveChanges();
+            navigation.ClosePage();
         }
 
         private void CencelMethod(object o)
         {
-            Window w = o as Window;
-            cds.IsResultTrue = false;
-            w.Close();
+            navigation.ClosePage();
         }
         #endregion
     }

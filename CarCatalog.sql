@@ -1,43 +1,4 @@
-﻿SET QUOTED_IDENTIFIER ON
-
-DECLARE @sql varchar(max)
-DECLARE @schema_version int, @id int
-
-
-IF NOT EXISTS (SELECT 1 from sys.schemas s WHERE s.[name] = 'Admin')
-BEGIN
-    SET @sql = 'CREATE SCHEMA [Admin] AUTHORIZATION [dbo]'
-    EXEC(@sql)
-END
-
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Admin].[Options]') AND type in (N'U'))
-	BEGIN
-		CREATE TABLE [Admin].[Options]
-		(
-			ID INT IDENTITY(1, 1) NOT NULL,
-			[SchemaVersion] INT NOT NULL,
-			VersionDateTime DATETIME DEFAULT GETDATE(),
-			CONSTRAINT [PK_Options] PRIMARY KEY CLUSTERED([ID])
-		) ON [PRIMARY]
-	END
-
-
-BEGIN TRY
-
-SET @schema_version = 1
-IF NOT EXISTS (SELECT NULL FROM [Admin].[Options] WHERE [SchemaVersion] = @schema_version)
-BEGIN
-	BEGIN TRANSACTION
-	
-	INSERT INTO [Admin].[Options] ([SchemaVersion]) VALUES (@schema_version)
-	COMMIT
-END
-
-SET @schema_version = 2
-IF NOT EXISTS (SELECT NULL FROM [Admin].[Options] WHERE [SchemaVersion] = @schema_version)
-BEGIN
-	BEGIN TRANSACTION
-	
+﻿BEGIN TRANSACTION
 	IF NOT EXISTS (SELECT 1 from sys.schemas s WHERE s.[name] = 'Cars')
 	BEGIN
 		SET @sql = 'CREATE SCHEMA [Cars] AUTHORIZATION [dbo]'
@@ -58,15 +19,6 @@ BEGIN
 	EXEC sp_addextendedproperty N'MS_Description', N'Название' ,	N'SCHEMA', N'Cars', N'TABLE', N'BodyType', N'COLUMN', N'Name'
 	EXEC sp_addextendedproperty N'MS_Description', N'Картинка' ,	N'SCHEMA', N'Cars', N'TABLE', N'BodyType', N'COLUMN', N'Image'
 
-	INSERT INTO [Admin].[Options] (SchemaVersion) VALUES (@schema_version)
-	COMMIT
-END
-
-SET @schema_version = 3
-IF NOT EXISTS (SELECT NULL FROM [Admin].[Options] WHERE [SchemaVersion] = @schema_version)
-BEGIN
-	BEGIN TRANSACTION
-	
 	CREATE TABLE Cars.Manufacturer
 	(
 		ID INT IDENTITY(1, 1) NOT NULL,
@@ -109,15 +61,6 @@ BEGIN
 	EXEC sp_addextendedproperty N'MS_Description', N'Название' ,	N'SCHEMA', N'Cars', N'TABLE', N'WheelDriveType', N'COLUMN', N'Name'
 	EXEC sp_addextendedproperty N'MS_Description', N'Картинка' ,	N'SCHEMA', N'Cars', N'TABLE', N'WheelDriveType', N'COLUMN', N'Image'
 
-	INSERT INTO [Admin].[Options] (SchemaVersion) VALUES (@schema_version)
-	COMMIT
-END
-
-SET @schema_version = 4
-IF NOT EXISTS (SELECT NULL FROM [Admin].[Options] WHERE [SchemaVersion] = @schema_version)
-BEGIN
-	BEGIN TRANSACTION
-	
 	CREATE TABLE Cars.Car
 	(
 		ID INT IDENTITY(1, 1) NOT NULL,
@@ -148,26 +91,5 @@ BEGIN
 	EXEC sp_addextendedproperty N'MS_Description', N'Мощность' ,				N'SCHEMA', N'Cars', N'TABLE', N'Car', N'COLUMN', N'Power'
 	EXEC sp_addextendedproperty N'MS_Description', N'Цена' ,				N'SCHEMA', N'Cars', N'TABLE', N'Car', N'COLUMN', N'Price'
 	
-	INSERT INTO [Admin].[Options] (SchemaVersion) VALUES (@schema_version)
-	COMMIT
-END
-
-
-/*
-SET @schema_version = 5
-IF NOT EXISTS (SELECT NULL FROM [Admin].[Options] WHERE [SchemaVersion] = @schema_version)
-BEGIN
-	BEGIN TRANSACTION
-
-	INSERT INTO [Admin].[Options] (SchemaVersion) VALUES (@schema_version)
-	COMMIT
-END
-*/
-END TRY
-BEGIN CATCH
-	DECLARE @ErrMessage VARCHAR(MAX)
-	SELECT @ErrMessage = CAST(ERROR_LINE() AS VARCHAR(10)) + ' - ' + ERROR_MESSAGE() +
-		'. schema_version = ' + cast(@schema_version as varchar(10))
-	ROLLBACK
-	RAISERROR (@ErrMessage, 17, 1)
-END CATCH
+	
+COMMIT

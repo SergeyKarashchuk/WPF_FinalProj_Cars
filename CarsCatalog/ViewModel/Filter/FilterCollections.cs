@@ -21,7 +21,7 @@ namespace CarsCatalog.ViewModel.Filter
 
         #region Fields
 
-        private UnitOfWork uof;
+        private IUnitOfWork uof;
         private PropertyChangedEventHandler handler;
         private List<CheckBoxItem> brandList;
         public List<CheckBoxItem> ManufacturerChecks
@@ -73,7 +73,7 @@ namespace CarsCatalog.ViewModel.Filter
 
         public FilterCollections(PropertyChangedEventHandler handler)
         {
-            uof = UnitOfWork.GetUnitOfWork();
+            uof = DependencyResolver.Resolve<IUnitOfWork>();
             this.handler = handler;
             FillCheckBoxLists(handler);
         } 

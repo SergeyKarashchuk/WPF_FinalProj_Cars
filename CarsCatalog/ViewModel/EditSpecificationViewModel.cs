@@ -82,9 +82,6 @@ namespace CarsCatalog.ViewModel
         public EditSpecificationViewModel()
         {
             StyleLanguage = StyleLangCollection.GetStyleLangCollection();
-
-            uof = UnitOfWork.GetUnitOfWork();
-
             ExitCommand = new RelayCommand(ExitMethod);
             EditImage = new RelayCommand(AddImageMethod, x => SelectedItem != null);
             SelectCollectionCommand = new RelayCommand(SelectCollectionMethod);

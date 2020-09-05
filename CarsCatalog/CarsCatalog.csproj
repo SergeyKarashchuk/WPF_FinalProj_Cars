@@ -99,8 +99,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Infrastructure\BaseNotifyEntity.cs" />
+    <Compile Include="Infrastructure\Converters\BooleanVisibilityConverter.cs" />
+    <Compile Include="Infrastructure\DI\CarCatalogModule.cs" />
+    <Compile Include="Infrastructure\DI\DependencyResolver.cs" />
     <Compile Include="Infrastructure\ImageCopyManager.cs" />
     <Compile Include="Model\DataProviders\CarDataSingleton.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\CarCatalogViewModel.cs" />
     <Compile Include="ViewModel\EditCarViewModel.cs" />
     <Compile Include="ViewModel\EditSpecificationViewModel.cs" />
     <Compile Include="ViewModel\Filter\CheckBoxItem.cs" />
@@ -109,6 +115,13 @@
     <Compile Include="ViewModel\Filter\FilterSortItems.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\StyleAndLanguage\StyleLangCollection.cs" />
+    <Compile Include="View\AwaitUC.xaml.cs">
+      <DependentUpon>AwaitUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ModuleUserControl.cs" />
+    <Compile Include="View\CarCatalogUC.xaml.cs">
+      <DependentUpon>CarCatalogUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EditCarWindow.xaml.cs">
       <DependentUpon>EditCarWindow.xaml</DependentUpon>
     </Compile>
@@ -142,6 +155,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="View\AwaitUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CarCatalogUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\EditCarWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -12,18 +12,9 @@ using CarCatalogDAL;
 
 namespace CarsCatalog.ViewModel
 {
-    public class EditCarViewModel : INotifyPropertyChanged
+    public class EditCarViewModel : BaseViewModel
     {
-        #region PropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void Notify([CallerMemberName]string property="")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-        #endregion
-
         #region Properties
-        private UnitOfWork uof;
         private CarDataSingleton cds;
 
         private Car car;
@@ -36,8 +27,6 @@ namespace CarsCatalog.ViewModel
                 Notify();
             }
         }
-
-        public StyleLangCollection StyleLanguage { get; }
 
         public List<BodyType> BodyTypes { get; }
         public List<Manufacturer> Manufacturers { get; }
@@ -54,8 +43,6 @@ namespace CarsCatalog.ViewModel
         #region Methods
         public EditCarViewModel()
         {
-            StyleLanguage = StyleLangCollection.GetStyleLangCollection();
-            uof = UnitOfWork.GetUnitOfWork();
             BodyTypes = uof.BodyTypes.GetAll().ToList();
             Manufacturers = uof.Manufacturers.GetAll().ToList();
             GearBoxTypes = uof.GearBoxTypes.GetAll().ToList();

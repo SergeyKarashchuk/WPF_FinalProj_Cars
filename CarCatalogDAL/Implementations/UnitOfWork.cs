@@ -21,18 +21,7 @@ namespace CarCatalogDAL.Implementations
         }
 
         private CarCatalogEntities context;
-
-        private static UnitOfWork unit;
-        public static UnitOfWork GetUnitOfWork()
-        {
-            if (unit == null)
-            {
-                unit = new UnitOfWork();
-            }
-            return unit;
-        }
-
-        private UnitOfWork()
+        public UnitOfWork()
         {
             context = new CarCatalogEntities();
             Cars = new CarRepository(context);

@@ -3,12 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:CarsCatalog.Infrastructure.Converters"
              xmlns:local="clr-namespace:CarsCatalog.View" 
              mc:Ignorable="d">
-    <Grid Background="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <TextBlock 
-            Text="WAIT" Foreground="Red" FontSize="25" FontWeight="Bold"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"/>
-    </Grid>
+    <UserControl.Resources>
+        <Style x:Key="BorderStyle" TargetType="Border">
+            <Setter Property="Width" Value="50" />
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Background" Value="DarkGray"/>
+        </Style>
+        <Storyboard x:Key="BorderAnymationStoryboard" RepeatBehavior="Forever">
+            <ColorAnimation 
+                To="Gray"
+                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
+                Duration="0:0:2.0"
+                />
+        </Storyboard>
+    </UserControl.Resources>
+    <Border Background="LightGray" Opacity="0.8">
+        <Canvas 
+            Width="150" Height="150"
+            VerticalAlignment="Center" HorizontalAlignment="Center"
+            Loaded="Canvas_Loaded">
+            <Border Canvas.Left="10" Canvas.Top="10" Style="{StaticResource BorderStyle}"/>
+            <Border Canvas.Right="10" Canvas.Top="10" Style="{StaticResource BorderStyle}" />
+            <Border Canvas.Right="10" Canvas.Bottom="10" Style="{StaticResource BorderStyle}" />
+            <Border Canvas.Left="10" Canvas.Bottom="10" Style="{StaticResource BorderStyle}" />
+        </Canvas>
+    </Border>
 </UserControl>

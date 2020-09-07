@@ -94,7 +94,7 @@ namespace CarsCatalog.ViewModel
 
             Task.Factory.StartNew(async () =>
             {
-                await Task.Delay(TimeSpan.FromSeconds(3)).ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromSeconds(10)).ConfigureAwait(false);
                 ExecuteOperationInSyncThread(() =>
                 {
                     Remap();

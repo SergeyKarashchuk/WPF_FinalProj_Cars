@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using BaseNotifyEntity = CarsCatalog.Infrastructure.BaseNotifyEntity;
 
 namespace CarsCatalog.ViewModel
@@ -26,6 +27,11 @@ namespace CarsCatalog.ViewModel
         public virtual void Remap()
         {
 
+        }
+
+        protected virtual void ExecuteOperationInSyncThread(Action action)
+        {
+            Application.Current.Dispatcher.BeginInvoke(action);
         }
     }
 }

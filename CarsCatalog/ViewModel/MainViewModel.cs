@@ -73,6 +73,7 @@ namespace CarsCatalog.ViewModel
                     if (CurrentControl != null)
                         navigationList.Add(new NavigationItem { Sender = s, Control = CurrentControl });
                     CurrentControl = e.NewUserControl;
+                    (CurrentControl.DataContext as BaseViewModel)?.Remap();
                 });
             };
 
@@ -89,22 +90,10 @@ namespace CarsCatalog.ViewModel
                     Remap();
                 }
             };
-
-            applicationNavigation.SetAwaiter(true);
-
-            Task.Factory.StartNew(async () =>
-            {
-                await Task.Delay(TimeSpan.FromSeconds(10)).ConfigureAwait(false);
-                ExecuteOperationInSyncThread(() =>
-                {
-                    Remap();
-                });
-            });
-        }
-
-        private void ExecuteOperationInSyncThread(Action action)
-        {
-            Application.Current.Dispatcher.BeginInvoke(action);
+            
+            var uc = new CarCatalogUC();
+            CurrentControl = uc;
+            (CurrentControl.DataContext as BaseViewModel)?.Remap();            
         }
 
         public override void Remap()

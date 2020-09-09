@@ -23,12 +23,12 @@
         <converter:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter"/>
     </Window.Resources>
     <Grid>
-        <ContentControl 
+        <ContentControl Panel.ZIndex="2"
             Opacity="0.5"
             Visibility="{Binding IsWaitWisible, Converter={StaticResource BooleanVisibilityConverter}}">
             <local:AwaitUC />
         </ContentControl>
-        <ContentControl
+        <ContentControl Panel.ZIndex="1"
             IsEnabled="{Binding IsMainEnable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Content="{Binding CurrentControl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         </ContentControl>

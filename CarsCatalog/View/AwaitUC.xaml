@@ -10,17 +10,17 @@
         <Style x:Key="BorderStyle" TargetType="Border">
             <Setter Property="Width" Value="50" />
             <Setter Property="Height" Value="50" />
-            <Setter Property="Background" Value="DarkGray"/>
+            <Setter Property="Background" Value="LightBlue"/>
         </Style>
         <Storyboard x:Key="BorderAnymationStoryboard" RepeatBehavior="Forever">
             <ColorAnimation 
-                To="Gray"
+                To="Blue"
                 Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
-                Duration="0:0:2.0"
+                Duration="0:0:1.0"
                 />
         </Storyboard>
     </UserControl.Resources>
-    <Border Background="LightGray" Opacity="0.8">
+    <Border Background="White" Opacity="0.5">
         <Canvas 
             Width="150" Height="150"
             VerticalAlignment="Center" HorizontalAlignment="Center"

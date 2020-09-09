@@ -20,6 +20,7 @@
     <s:String x:Key="m_Language">Language</s:String>
     <s:String x:Key="m_ImageSize">Image Size</s:String>
 
+    <s:String x:Key="m_ReloadCatalog">Reload Catalog</s:String>
     <s:String x:Key="m_Exit">Exit</s:String>
 
     <s:String x:Key="m_Filter">Filter</s:String>

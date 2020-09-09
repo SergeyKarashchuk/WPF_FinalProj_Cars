@@ -4,9 +4,11 @@ using CarsCatalog.View;
 using CarsCatalog.ViewModel.Filter;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace CarsCatalog.ViewModel
@@ -20,6 +22,7 @@ namespace CarsCatalog.ViewModel
         public ICommand EditSpecificationsCommand { get; }
         public ICommand Filter { get; }
         public ICommand Sort { get; }
+        public ICommand ReloadCatalogCommand { get; }
         public ICommand ExitCommand { get; }
         #endregion
 
@@ -31,6 +34,7 @@ namespace CarsCatalog.ViewModel
 
         public FilterSortItems ElementsWithFilters { get; set; }
         public Car SelectedCar { get; set; }
+        public ObservableCollection<Car> CarCatalog { get; set; }
 
         #endregion
 
@@ -42,26 +46,39 @@ namespace CarsCatalog.ViewModel
             AddCar = new RelayCommand(o => AddOrUpdateCar());
             EditCar = new RelayCommand(o => AddOrUpdateCar(), x => SelectedCar != null);
             EditSpecificationsCommand = new RelayCommand(EditSpecificationsMethod);
-
+            ReloadCatalogCommand = new RelayCommand(o => RemapCollections());
             FilterProperty = new IconProperty();
             SortProperty = new IconProperty();
 
-            carlist = GetCarList();
+            carlist = GetCarListAsync().Result;
             ElementsWithFilters = new FilterSortItems(carlist);
             ElementsWithFilters.ClearFilters(carlist);
+            CarCatalog = new ObservableCollection<Car>();
         }
 
         private void RemapCollections()
         {
-            carlist = GetCarList();
-            ElementsWithFilters.ClearFilters(carlist);
+            navigation.SetAwaiter(true);
+
+            Task.Factory.StartNew(async () =>
+            {
+                await Task.Delay(TimeSpan.FromSeconds(2)).ConfigureAwait(false);
+                carlist = await GetCarListAsync();
+                await Task.Delay(TimeSpan.FromSeconds(2)).ConfigureAwait(false);
+                ExecuteOperationInSyncThread(() =>
+                {
+                    navigation.SetAwaiter(false);
+                });
+            });
+
+            CarCatalog.Clear();
+            carlist.ForEach(x => CarCatalog.Add(x));
         }
 
-        private List<Car> GetCarList()
+        private Task<List<Car>> GetCarListAsync()
         {
-            List<Car> car_list = new List<Car>(uof.Cars.GetAll());
-
-            return car_list;
+            var task = Task.Factory.StartNew(() => new List<Car>(uof.Cars.GetAll()));
+            return task;
         }
 
         private void RemoveCarMethod(object o)
@@ -80,7 +97,7 @@ namespace CarsCatalog.ViewModel
 
         private void ExitMethod(object o)
         {
-            //(o as Window)?.Close();
+            Application.Current.Shutdown();
         }
 
         private void SaveMethod(object obj)

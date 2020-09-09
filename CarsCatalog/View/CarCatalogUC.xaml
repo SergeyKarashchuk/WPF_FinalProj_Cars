@@ -130,22 +130,22 @@
                     </MenuItem>
                 </MenuItem>
                 <MenuItem 
+                    Header="{DynamicResource m_ReloadCatalog}"
+                    Command="{Binding ReloadCatalogCommand}"/>
+                <MenuItem 
                     Header="{DynamicResource m_Exit}"
-                    Command="{Binding ExitCommand}" 
-                    CommandParameter="{Binding ElementName=wnd}"/>
+                    Command="{Binding ExitCommand}" />
             </Menu>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
-
             </Grid>
         </DockPanel>
         <Grid>
             <ListBox
-                ItemsSource="{Binding ElementsWithFilters.CarsObservableCollection}"
+                ItemsSource="{Binding CarCatalog}"
                 SelectedItem="{Binding SelectedCar}"
                 ItemTemplate="{StaticResource listDataTemplate}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">

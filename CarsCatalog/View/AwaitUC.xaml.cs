@@ -36,7 +36,7 @@ namespace CarsCatalog.View
             {
                 if (canvas.Children[i] is Border border)
                 {
-                    storyboard.BeginTime = TimeSpan.FromMilliseconds(500.0 * i);
+                    storyboard.BeginTime = TimeSpan.FromMilliseconds(200.0 * i);
                     storyboard.Begin(border);
                 }
             }

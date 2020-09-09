@@ -19,7 +19,8 @@
     <s:String x:Key="m_Style">Стиль</s:String>
     <s:String x:Key="m_Language">Язык</s:String>
     <s:String x:Key="m_ImageSize">Размер изображения</s:String>
-    
+
+    <s:String x:Key="m_ReloadCatalog">Обновить</s:String>
     <s:String x:Key="m_Exit">Выход</s:String>
 
     <s:String x:Key="m_Image">Изображение</s:String>

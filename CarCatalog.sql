@@ -1,4 +1,6 @@
 ﻿BEGIN TRANSACTION
+
+	declare @sql varchar(max)
 	IF NOT EXISTS (SELECT 1 from sys.schemas s WHERE s.[name] = 'Cars')
 	BEGIN
 		SET @sql = 'CREATE SCHEMA [Cars] AUTHORIZATION [dbo]'

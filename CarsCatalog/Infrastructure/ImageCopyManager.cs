@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,22 +20,7 @@ namespace CarsCatalog.Infrastructure
             if (ofd.ShowDialog() == true)
             {
                 FileInfo file = new FileInfo(ofd.FileName);
-                string newFileName = file.Name;                
-
-                string newFileNameWOextencion = Path.GetFileNameWithoutExtension(file.Name);               
-
-                string extencion = newFileName.Remove(0, newFileNameWOextencion.Length);               
-
-                DirectoryInfo di = new DirectoryInfo($"{Environment.CurrentDirectory}/Data/Images");
-                FileInfo[] file_list = di.GetFiles();
-                int i = 0;
-                while (file_list.Any(x =>
-                (Path.GetFileNameWithoutExtension(x.Name) == $"{newFileNameWOextencion}{(i > 0 ? i.ToString() : "")}")))
-                {
-                    i++;
-                }
-                newFileName = $"{newFileNameWOextencion}{(i > 0 ? i.ToString() : "")}{extencion}";
-                File.Copy(file.FullName, $"{Environment.CurrentDirectory}/Data/Images/{newFileName}");
+                string newFileName = file.FullName;                
                 return newFileName;
             }
             return null;

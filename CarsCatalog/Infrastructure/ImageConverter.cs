@@ -10,16 +10,17 @@ namespace CarsCatalog.Infrastructure
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string val = value as string;
-            string dest = "/Data/Images/";            
-            dest += val ?? "No_Image.png";
-
-            if (!File.Exists($"{Environment.CurrentDirectory}{dest}"))
+            if (value is string str)
             {
-                return null;
-            }               
-            BitmapImage img = new BitmapImage(new Uri(Environment.CurrentDirectory + dest));
-            return img;
+                if (File.Exists($"{str}"))
+                    return new BitmapImage(new Uri(str));
+
+                var imageDestInApplication = $"/Data/Images/{str}";
+                if (File.Exists($"{Environment.CurrentDirectory}{imageDestInApplication}"))
+                    return new BitmapImage(new Uri(Environment.CurrentDirectory + imageDestInApplication));
+            }
+            var bi = new BitmapImage(new Uri($"/CarsCatalog;component/Images/No_Image.png", UriKind.RelativeOrAbsolute));
+            return bi;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

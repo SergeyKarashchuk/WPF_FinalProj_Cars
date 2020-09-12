@@ -10,6 +10,7 @@ using CarCatalogDAL.Implementations;
 using CarCatalogDAL;
 using CarCatalogDAL.Models;
 using System.Collections.ObjectModel;
+using System;
 
 namespace CarsCatalog.ViewModel
 {
@@ -50,6 +51,7 @@ namespace CarsCatalog.ViewModel
             AddImageCommand = new RelayCommand(AddImageMethod);
             AcceptCommand = new RelayCommand(AcceptMethod);
             CencelCommand = new RelayCommand(CencelMethod);
+            Car = new Car();
         }
 
         private void AddImageMethod(object o)
@@ -79,9 +81,6 @@ namespace CarsCatalog.ViewModel
                 var entity = uof.Cars.Get((remapParam as int?).Value);
                 Car = entity;
             }
-            else
-                Car = new Car();
-
         }
         #endregion
     }

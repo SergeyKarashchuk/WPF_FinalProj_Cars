@@ -16,6 +16,7 @@
     </local:ModuleUserControl.DataContext>
     <local:ModuleUserControl.Resources>
         <infra:ImageConverter x:Key="ImageConverter"/>
+        
         <DataTemplate x:Key="comboboxItemTemplate">
             <Grid
                 Width="200">
@@ -24,16 +25,16 @@
                     <ColumnDefinition Width="1.5*"/>
                 </Grid.ColumnDefinitions>
                 <Image 
-                    Height="25"
-                    Width="50"
-                    Margin="5"
+                    Height="20"
+                    Width="30"
+                    Margin="2"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Stretch="Uniform"
                     Source="{Binding Image, Converter={StaticResource ImageConverter}}"/>
                 <TextBlock
                     Grid.Column="1"
-                    Margin="5"
+                    Margin="2"
                     Text="{Binding Name}"
                     VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch"
@@ -41,6 +42,17 @@
                     FontSize="15"/>
             </Grid>
         </DataTemplate>
+        <Style TargetType="ComboBox" x:Key="specificationCombo">
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="Template" Value="{DynamicResource ComboBoxTemplate}" />
+            <Setter Property="ItemTemplate" Value="{StaticResource comboboxItemTemplate}"/>
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="2 1 2 2"/>
+            <Setter Property="SelectedValuePath" Value="ID"/>
+        </Style>
     </local:ModuleUserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -187,13 +199,9 @@
                     Text="{DynamicResource Manufacturer}"/>
                 <ComboBox
                     Grid.Row="1"
-                    Margin ="5 2 5 2"
-                    Width ="300"
-                    HorizontalAlignment = "Stretch"
-                    Height ="50"
+                    Style="{StaticResource specificationCombo}"
                     ItemsSource="{Binding Manufacturers}"
-                    ItemTemplate="{StaticResource comboboxItemTemplate}"
-                    SelectedItem="{Binding Car.Manufacturer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    SelectedItem="{Binding Car.Manufacturer}" />
             </Grid>
             <Grid
                 Grid.Row="1"
@@ -213,13 +221,9 @@
                     Text="{DynamicResource BodyType}"/>
                 <ComboBox   
                     Grid.Row="1"
-                    Margin ="5 2 5 2"
-                    Width ="300"
-                    HorizontalAlignment = "Stretch"
-                    Height ="50"
+                    Style="{StaticResource specificationCombo}"
                     ItemsSource="{Binding BodyTypes}"
-                    ItemTemplate="{StaticResource comboboxItemTemplate}"
-                    SelectedItem="{Binding Car.BodyType}"/>
+                    SelectedItem="{Binding Car.BodyType}" />
             </Grid>
         </Grid>
         <Grid  
@@ -247,15 +251,9 @@
                     Text="{DynamicResource GearBoxType}"/>
                 <ComboBox
                     Grid.Row="1"
-                    Margin ="5 2 5 2"
-                    Width ="300"
-                    HorizontalAlignment = "Stretch"
-                    Height ="50"
+                    Style="{StaticResource specificationCombo}"
                     ItemsSource="{Binding GearBoxTypes}"
-                    ItemTemplate="{StaticResource comboboxItemTemplate}"
-                    IsSynchronizedWithCurrentItem="True"
-                    SelectedItem="{Binding Car.GearBoxType}"/>
-
+                    SelectedItem="{Binding Car.GearBoxType}" />
             </Grid>
             <Grid
                 Grid.Row="1"
@@ -275,14 +273,9 @@
                     Text="{DynamicResource WheelDriveType}"/>
                 <ComboBox
                     Grid.Row="1"
-                    Margin ="5 2 5 2"
-                    Width ="300"
-                    HorizontalAlignment = "Stretch"
-                    Height ="50"   
+                    Style="{StaticResource specificationCombo}"
                     ItemsSource="{Binding WheelDriveTypes}"
-                    ItemTemplate="{StaticResource comboboxItemTemplate}"
-                    IsSynchronizedWithCurrentItem="True"
-                    SelectedItem="{Binding Car.WheelDriveType}"/>
+                    SelectedItem="{Binding Car.WheelDriveType}" />
             </Grid>
         </Grid>
         <Button 

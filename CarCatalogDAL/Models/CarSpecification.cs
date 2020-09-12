@@ -39,5 +39,12 @@ namespace CarCatalogDAL.Models
                 Notify();
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || obj.GetType() != this.GetType() || !(obj is CarSpecification carSpecification))
+                return false;
+            return carSpecification.ID == this.ID;
+        }
     }
 }

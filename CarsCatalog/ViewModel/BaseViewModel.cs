@@ -24,7 +24,7 @@ namespace CarsCatalog.ViewModel
             navigation = DependencyResolver.Resolve<IApplicationNavigation>();
         }
 
-        public virtual void Remap()
+        public virtual void Remap(object remapParam = null)
         {
 
         }

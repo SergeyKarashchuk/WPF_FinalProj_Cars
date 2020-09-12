@@ -73,7 +73,7 @@ namespace CarsCatalog.ViewModel
                     if (CurrentControl != null)
                         navigationList.Add(new NavigationItem { Sender = s, Control = CurrentControl });
                     CurrentControl = e.NewUserControl;
-                    (CurrentControl.DataContext as BaseViewModel)?.Remap();
+                    (CurrentControl.DataContext as BaseViewModel)?.Remap(e.RemapParam);
                 });
             };
 
@@ -96,7 +96,7 @@ namespace CarsCatalog.ViewModel
             (CurrentControl.DataContext as BaseViewModel)?.Remap();            
         }
 
-        public override void Remap()
+        public override void Remap(object remapParam = null)
         {
             var uc = new CarCatalogUC();
             applicationNavigation.OpenNewWindow(uc);

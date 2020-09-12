@@ -43,8 +43,8 @@ namespace CarsCatalog.ViewModel
         {
             RemoveCar = new RelayCommand(RemoveCarMethod, x => SelectedCar != null);
             ExitCommand = new RelayCommand(ExitMethod);
-            AddCar = new RelayCommand(o => AddOrUpdateCar());
-            EditCar = new RelayCommand(o => AddOrUpdateCar(), x => SelectedCar != null);
+            AddCar = new RelayCommand(o => AddOrUpdateCar(true));
+            EditCar = new RelayCommand(o => AddOrUpdateCar(false), x => SelectedCar != null);
             EditSpecificationsCommand = new RelayCommand(EditSpecificationsMethod);
             ReloadCatalogCommand = new RelayCommand(o => RemapCollections());
             FilterProperty = new IconProperty();
@@ -58,21 +58,19 @@ namespace CarsCatalog.ViewModel
 
         private void RemapCollections()
         {
+            CarCatalog.Clear();
             navigation.SetAwaiter(true);
-
             Task.Factory.StartNew(async () =>
             {
-                await Task.Delay(TimeSpan.FromSeconds(2)).ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
                 carlist = await GetCarListAsync();
-                await Task.Delay(TimeSpan.FromSeconds(2)).ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
                 ExecuteOperationInSyncThread(() =>
                 {
+                    carlist.ForEach(x => CarCatalog.Add(x));
                     navigation.SetAwaiter(false);
                 });
             });
-
-            CarCatalog.Clear();
-            carlist.ForEach(x => CarCatalog.Add(x));
         }
 
         private Task<List<Car>> GetCarListAsync()
@@ -89,10 +87,10 @@ namespace CarsCatalog.ViewModel
             RemapCollections();
         }
 
-        private void AddOrUpdateCar()
+        private void AddOrUpdateCar(bool isNew)
         {
-            var ecw = new EditCarUC(SelectedCar?.ID);
-            navigation.OpenNewWindow(ecw);
+            var ecw = new EditCarUC();
+            navigation.OpenNewWindow(ecw, !isNew ? SelectedCar?.ID : null);
         }
 
         private void ExitMethod(object o)
@@ -110,7 +108,7 @@ namespace CarsCatalog.ViewModel
             navigation.OpenNewWindow(new EditSpecificationUC());
         }
 
-        public override void Remap()
+        public override void Remap(object remapParam = null)
         {
             RemapCollections();
         }

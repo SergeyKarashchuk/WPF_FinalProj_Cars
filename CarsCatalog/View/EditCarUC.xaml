@@ -11,6 +11,9 @@
         mc:Ignorable="d"
         themes:ThemeManager.Theme="{Binding StyleLanguage.SelectedTheme}"
         lang:LanguageManager.Language="{Binding StyleLanguage.SelectedLanguage}">
+    <local:ModuleUserControl.DataContext>
+        <vm:EditCarViewModel/>
+    </local:ModuleUserControl.DataContext>
     <local:ModuleUserControl.Resources>
         <infra:ImageConverter x:Key="ImageConverter"/>
         <DataTemplate x:Key="comboboxItemTemplate">
@@ -181,16 +184,16 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="20"
-                    Text="{DynamicResource Brand}"/>
+                    Text="{DynamicResource Manufacturer}"/>
                 <ComboBox
                     Grid.Row="1"
                     Margin ="5 2 5 2"
-                    Width ="200"
+                    Width ="300"
                     HorizontalAlignment = "Stretch"
-                    Height ="40"
+                    Height ="50"
                     ItemsSource="{Binding Manufacturers}"
                     ItemTemplate="{StaticResource comboboxItemTemplate}"
-                    SelectedItem="{Binding Car.Manufacturer}"/>
+                    SelectedItem="{Binding Car.Manufacturer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
             <Grid
                 Grid.Row="1"
@@ -211,12 +214,12 @@
                 <ComboBox   
                     Grid.Row="1"
                     Margin ="5 2 5 2"
-                    Width ="200"
+                    Width ="300"
                     HorizontalAlignment = "Stretch"
-                    Height ="40"
+                    Height ="50"
                     ItemsSource="{Binding BodyTypes}"
                     ItemTemplate="{StaticResource comboboxItemTemplate}"
-                    SelectedItem="{Binding Car.BodyType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    SelectedItem="{Binding Car.BodyType}"/>
             </Grid>
         </Grid>
         <Grid  
@@ -245,11 +248,12 @@
                 <ComboBox
                     Grid.Row="1"
                     Margin ="5 2 5 2"
-                    Width ="200"
+                    Width ="300"
                     HorizontalAlignment = "Stretch"
-                    Height ="40"
+                    Height ="50"
                     ItemsSource="{Binding GearBoxTypes}"
                     ItemTemplate="{StaticResource comboboxItemTemplate}"
+                    IsSynchronizedWithCurrentItem="True"
                     SelectedItem="{Binding Car.GearBoxType}"/>
 
             </Grid>
@@ -272,11 +276,12 @@
                 <ComboBox
                     Grid.Row="1"
                     Margin ="5 2 5 2"
-                    Width ="200"
+                    Width ="300"
                     HorizontalAlignment = "Stretch"
-                    Height ="40"   
+                    Height ="50"   
                     ItemsSource="{Binding WheelDriveTypes}"
                     ItemTemplate="{StaticResource comboboxItemTemplate}"
+                    IsSynchronizedWithCurrentItem="True"
                     SelectedItem="{Binding Car.WheelDriveType}"/>
             </Grid>
         </Grid>

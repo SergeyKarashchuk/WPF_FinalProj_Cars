@@ -20,12 +20,14 @@ namespace CarsCatalog.Infrastructure
     public delegate void ChangeCurrentWindowEvent(object sender, ChangeCurrentWindowEventArg arg);
     public class ChangeCurrentWindowEventArg : EventArgs
     {
-        public ChangeCurrentWindowEventArg(ModuleUserControl control)
+        public ChangeCurrentWindowEventArg(ModuleUserControl control, object remapParam)
         {
             NewUserControl = control;
+            RemapParam = remapParam;
         }
 
         public ModuleUserControl NewUserControl { get; }
+        public object RemapParam { get; }
     }
     public delegate void ClosePageEvent(object sender, EventArgs arg);
 
@@ -34,7 +36,7 @@ namespace CarsCatalog.Infrastructure
         event WindowWaitEvent WindowWaitEventHandler;
         event ChangeCurrentWindowEvent ChangeCurrentWindowEventHandler;
         event ClosePageEvent ClosePageEvent;
-        void OpenNewWindow(ModuleUserControl page);
+        void OpenNewWindow(ModuleUserControl page, object remapParams = null);
         void SetAwaiter(bool isAwait);
         void ClosePage();
     }
@@ -50,9 +52,9 @@ namespace CarsCatalog.Infrastructure
             WindowWaitEventHandler?.Invoke(this, new AwaiterEventArg(isAwait));
         }
 
-        public void OpenNewWindow(ModuleUserControl page)
+        public void OpenNewWindow(ModuleUserControl page, object remapParam = null)
         {
-            ChangeCurrentWindowEventHandler?.Invoke(this, new ChangeCurrentWindowEventArg(page));
+            ChangeCurrentWindowEventHandler?.Invoke(this, new ChangeCurrentWindowEventArg(page, remapParam));
         }
 
         public void ClosePage()

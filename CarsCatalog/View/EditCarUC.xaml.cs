@@ -16,15 +16,13 @@ using System.Windows.Shapes;
 namespace CarsCatalog.View
 {
     /// <summary>
-    /// Interaction logic for EditCarWindow.xaml
+    /// Interaction logic for EditCarUC.xaml
     /// </summary>
     public partial class EditCarUC
     {
-        public EditCarUC(int? carID = null)
+        public EditCarUC()
         {
             InitializeComponent();
-
-            DataContext = new EditCarViewModel(carID);
         }
     }
 }

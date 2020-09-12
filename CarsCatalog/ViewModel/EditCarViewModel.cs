@@ -8,6 +8,8 @@ using System.Windows;
 using CarsCatalog.ViewModel.StyleAndLanguage;
 using CarCatalogDAL.Implementations;
 using CarCatalogDAL;
+using CarCatalogDAL.Models;
+using System.Collections.ObjectModel;
 
 namespace CarsCatalog.ViewModel
 {
@@ -39,13 +41,12 @@ namespace CarsCatalog.ViewModel
         #endregion
 
         #region Methods
-        public EditCarViewModel(int? ID = null)
+        public EditCarViewModel()
         {
             BodyTypes = uof.BodyTypes.GetAll().ToList();
             Manufacturers = uof.Manufacturers.GetAll().ToList();
             GearBoxTypes = uof.GearBoxTypes.GetAll().ToList();
             WheelDriveTypes = uof.WheelDriveTypes.GetAll().ToList();
-            Car = ID > 0 ? uof.Cars.Get(ID.Value) : new Car();
             AddImageCommand = new RelayCommand(AddImageMethod);
             AcceptCommand = new RelayCommand(AcceptMethod);
             CencelCommand = new RelayCommand(CencelMethod);
@@ -69,6 +70,18 @@ namespace CarsCatalog.ViewModel
         private void CencelMethod(object o)
         {
             navigation.ClosePage();
+        }
+
+        public override void Remap(object remapParam = null)
+        { 
+            if (remapParam is int?)
+            {
+                var entity = uof.Cars.Get((remapParam as int?).Value);
+                Car = entity;
+            }
+            else
+                Car = new Car();
+
         }
         #endregion
     }

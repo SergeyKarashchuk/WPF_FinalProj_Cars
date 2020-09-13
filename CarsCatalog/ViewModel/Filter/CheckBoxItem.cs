@@ -10,29 +10,50 @@ namespace CarsCatalog.ViewModel.Filter
 {
     public enum CheckBoxItemType
     {
-        Brand,
+        Manufacturer,
         BodyType,
-        Gearbox,
-        WheelDrive
+        GearBoxType,
+        WheelDriveType,
+    }
+
+    public delegate void CheckBoxItemChangedEventHandler(object sender, CheckBoxItemChangedEventArg arg);
+
+    public class CheckBoxItemChangedEventArg
+    {
+        public CheckBoxItemChangedEventArg(CheckBoxItemType specificationType, bool isChecked)
+        {
+            SpecificationType = specificationType;
+            IsChecked = isChecked;
+        }
+
+        public CheckBoxItemType SpecificationType { get; }
+        public bool IsChecked { get; }
     }
 
     public class CheckBoxItem : INotifyPropertyChanged
     {
+        public event CheckBoxItemChangedEventHandler CheckBoxItemChangedEvent;
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void Notify([CallerMemberName]string property = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        public CheckBoxItem(string name, CheckBoxItemType type, PropertyChangedEventHandler handler)
+        private void FileterItemChanged(bool isChecked)
         {
-            CheckBoxItemType = type;
-            Name = name;
-            IsChecked = false;
-            IsEnabled = true;
-            PropertyChanged += handler;
+            CheckBoxItemChangedEvent?.Invoke(this, new CheckBoxItemChangedEventArg(CheckBoxItemType, isChecked));
         }
 
+        public CheckBoxItem(int id, string name, CheckBoxItemType type)
+        {
+            ID = id;
+            Name = name;
+            CheckBoxItemType = type;
+            IsChecked = false;
+            IsEnabled = true;
+        }
+        public int ID { get; }
         public CheckBoxItemType CheckBoxItemType { get; }
 
         private bool isChecked;
@@ -43,7 +64,10 @@ namespace CarsCatalog.ViewModel.Filter
             {
                 isChecked = value;
                 if (isEnabled)
+                {
                     Notify();
+                    FileterItemChanged(value);
+                }
             }
         }
 

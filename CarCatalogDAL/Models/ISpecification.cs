@@ -12,5 +12,6 @@ namespace CarCatalogDAL.Models
         int ID { get; set; }
         string Name { get; set; }
         string Image { get; set; }
+        string SpecificationType { get; }
     }
 }

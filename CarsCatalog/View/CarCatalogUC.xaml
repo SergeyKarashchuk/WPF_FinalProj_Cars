@@ -145,7 +145,7 @@
         </DockPanel>
         <Grid>
             <ListBox
-                ItemsSource="{Binding CarCatalog}"
+                ItemsSource="{Binding ElementsWithFilters.CarsObservableCollection}"
                 SelectedItem="{Binding SelectedCar}"
                 ItemTemplate="{StaticResource listDataTemplate}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">

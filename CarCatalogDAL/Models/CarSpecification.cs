@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CarCatalogDAL.Models
 {
-    public class CarSpecification :  ISpecification
+    public abstract class CarSpecification :  ISpecification
     {
         public event PropertyChangedEventHandler PropertyChanged;
         protected void Notify([CallerMemberName] string property = "")
@@ -39,6 +39,8 @@ namespace CarCatalogDAL.Models
                 Notify();
             }
         }
+
+        public abstract string SpecificationType { get; }
 
         public override bool Equals(object obj)
         {

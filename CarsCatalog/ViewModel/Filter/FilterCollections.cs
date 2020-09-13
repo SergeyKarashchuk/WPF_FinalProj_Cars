@@ -9,11 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CarsCatalog.ViewModel.Filter
-{
+{    
     public class FilterCollections : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
+        public event CheckBoxItemChangedEventHandler CheckBoxItemChangedEvent;
         private void Notify([CallerMemberName]string property="")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
@@ -22,7 +22,6 @@ namespace CarsCatalog.ViewModel.Filter
         #region Fields
 
         private IUnitOfWork uof;
-        private PropertyChangedEventHandler handler;
         private List<CheckBoxItem> brandList;
         public List<CheckBoxItem> ManufacturerChecks
         {
@@ -67,41 +66,54 @@ namespace CarsCatalog.ViewModel.Filter
             }
         }
 
+        public List<CheckBoxItem> AllSpecifications 
+        {
+            get
+            {
+                return WheelDriveChecks.Union(GearBoxTypesChecks.Union(BodyTypesChecks.Union(ManufacturerChecks))).ToList();
+            }
+        }
+
+
         #endregion
 
         #region Methods
 
-        public FilterCollections(PropertyChangedEventHandler handler)
+        public FilterCollections()
         {
             uof = DependencyResolver.Resolve<IUnitOfWork>();
-            this.handler = handler;
-            FillCheckBoxLists(handler);
+            FillCheckBoxLists();
         } 
         
         public void RemapCheckBoxLists()
         {
-            FillCheckBoxLists(this.handler);
+            FillCheckBoxLists();
         }
 
 
-        private void FillCheckBoxLists(PropertyChangedEventHandler handler)
+        private void FillCheckBoxLists()
         {
             ManufacturerChecks = new List<CheckBoxItem>(uof.Manufacturers.GetAll()
-                .Select(x => new CheckBoxItem(x.Name, CheckBoxItemType.Brand, handler)));
+                .Select(x => new CheckBoxItem(x.ID, x.Name, CheckBoxItemType.Manufacturer)));
+            ManufacturerChecks.ForEach(x => x.CheckBoxItemChangedEvent += CheckHandler);
 
             BodyTypesChecks = new List<CheckBoxItem>(uof.BodyTypes.GetAll()
-                .Select(x => new CheckBoxItem(x.Name, CheckBoxItemType.BodyType ,handler)));
+                .Select(x => new CheckBoxItem(x.ID, x.Name, CheckBoxItemType.BodyType)));
+            BodyTypesChecks.ForEach(x => x.CheckBoxItemChangedEvent += CheckHandler);
 
             GearBoxTypesChecks = new List<CheckBoxItem>(uof.GearBoxTypes.GetAll()
-                .Select(x => new CheckBoxItem(x.Name,CheckBoxItemType.Gearbox, handler)));
+                .Select(x => new CheckBoxItem(x.ID, x.Name, CheckBoxItemType.GearBoxType)));
+            GearBoxTypesChecks.ForEach(x => x.CheckBoxItemChangedEvent += CheckHandler);
 
             WheelDriveChecks = new List<CheckBoxItem>(uof.WheelDriveTypes.GetAll()
-                .Select(x => new CheckBoxItem(x.Name, CheckBoxItemType.WheelDrive, handler)));
+                .Select(x => new CheckBoxItem(x.ID, x.Name, CheckBoxItemType.WheelDriveType)));
+            WheelDriveChecks.ForEach(x => x.CheckBoxItemChangedEvent += CheckHandler);
         }
 
-       
+        private void CheckHandler(object sender, CheckBoxItemChangedEventArg arg)
+        {
+            CheckBoxItemChangedEvent?.Invoke(sender, arg);
+        }       
         #endregion
-
-
     }
 }

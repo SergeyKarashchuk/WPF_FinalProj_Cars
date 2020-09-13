@@ -98,5 +98,13 @@ namespace CarCatalogDAL
                 Notify();
             }
         }
+
+        public IEnumerable<ISpecification> Specifications => new List<ISpecification>
+        {
+            Manufacturer,
+            BodyType,
+            WheelDriveType,
+            GearBoxType,
+        }.Where(x => x != null);
     }
 }

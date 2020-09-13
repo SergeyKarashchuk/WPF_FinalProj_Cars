@@ -34,7 +34,6 @@ namespace CarsCatalog.ViewModel
 
         public FilterSortItems ElementsWithFilters { get; set; }
         public Car SelectedCar { get; set; }
-        public ObservableCollection<Car> CarCatalog { get; set; }
 
         #endregion
 
@@ -53,12 +52,10 @@ namespace CarsCatalog.ViewModel
             carlist = GetCarListAsync().Result;
             ElementsWithFilters = new FilterSortItems(carlist);
             ElementsWithFilters.ClearFilters(carlist);
-            CarCatalog = new ObservableCollection<Car>();
         }
 
         private void RemapCollections()
         {
-            CarCatalog.Clear();
             navigation.SetAwaiter(true);
             Task.Factory.StartNew(async () =>
             {
@@ -67,7 +64,7 @@ namespace CarsCatalog.ViewModel
                 await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
                 ExecuteOperationInSyncThread(() =>
                 {
-                    carlist.ForEach(x => CarCatalog.Add(x));
+                    ElementsWithFilters.ClearFilters(carlist);
                     navigation.SetAwaiter(false);
                 });
             });

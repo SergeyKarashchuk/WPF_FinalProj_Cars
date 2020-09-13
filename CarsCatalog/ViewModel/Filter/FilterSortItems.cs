@@ -96,7 +96,7 @@ namespace CarsCatalog.ViewModel.Filter
             var cheks = FilterCollections.AllSpecifications.Where(x => x.CheckBoxItemType == typeOfFiltrate && x.IsEnabled == true && x.IsChecked == true);
             if (cheks.Count() > 0)
             {
-                var uncheks = FilterCollections.ManufacturerChecks.Where(x => x.IsEnabled == true && x.IsChecked == false);
+                var uncheks = FilterCollections.AllSpecifications.Where(x => x.CheckBoxItemType == typeOfFiltrate && x.IsEnabled == true && x.IsChecked == false);
                 foreach (var item in uncheks)
                 {
                     carCollection.RemoveAll(car =>
